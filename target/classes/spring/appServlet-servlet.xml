@@ -5,6 +5,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" 
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
 		http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/beans 
@@ -13,6 +14,9 @@
         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd  
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd">
+        
+        
+        
 	<context:component-scan base-package="org.cmu.rmcs" />
 	<context:annotation-config />
 		<mvc:annotation-driven>
@@ -43,6 +47,8 @@
 		<property name="locations">
 			<list>
 				<value>classpath:properties/jdbc.properties</value>
+				<value>classpath:properties/redis.properties</value>
+
 				<!--要是有多个配置文，只需在这里继续添加即可 -->
 			</list>
 		</property>
@@ -106,7 +112,7 @@
 
 	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
-	<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
+	<mvc:resources mapping="/img/**" location="/WEB-INF/images/" />
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />
 	<!--  <bean id="velocityConfig"
 		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
@@ -138,21 +144,19 @@
 			<value>false</value>
 		</property>
 	</bean>
-	<bean name="genericObjectPoolConfig" class="org.apache.commons.pool2.impl.GenericObjectPoolConfig">
-		<property name="maxWaitMillis" value="-1" />
-		<property name="maxTotal" value="1000" />
-		<property name="minIdle" value="8" />
-		<property name="maxIdle" value="100" />
-	</bean>
-
-	<bean id="jedisCluster" class="com.sohu.wei.redis.JedisClusterFactory">
-		<property name="addressConfig">
-			<value>classpath:properties/redis-servers.properties</value>
-		</property>
-		<property name="addressKeyPrefix" value="address" />   <!-- 属性文件里 key的前缀 -->
-		<property name="timeout" value="30000" />
-		<property name="maxRedirections" value="6" />
-		<property name="genericObjectPoolConfig" ref="genericObjectPoolConfig" />
-	</bean>
+  <!-- redis 配置 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
+        <property name="maxIdle" value="${redis.maxIdle}" />  
+        <property name="maxTotal" value="${redis.maxActive}" />  
+        <property name="maxWaitMillis" value="${redis.maxWait}" />  
+        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />  
+    </bean>  
+      
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  
+        p:host-name="${redis.host}" p:port="${redis.port}"  p:pool-config-ref="poolConfig"/>  
+      
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
+        <property name="connectionFactory"   ref="connectionFactory" />  
+    </bean>
 
 </beans>

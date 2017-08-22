@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cmu.rmcs.dao.UserDao">
+	<select id="selectUser" resultType="int">
+		SELECT count(*) FROM user
+		 WHERE 
+		 userName LIKE  CONCAT(#{0},'') AND 
+		 password LIKE  CONCAT(#{1},'')
+	</select>
+	<select id="getUser" resultType="org.cmu.rmcs.pojo.User">
+		SELECT * FROM user
+		 WHERE 
+		 userName LIKE  CONCAT(#{0},'') AND 
+		 password LIKE  CONCAT(#{1},'')
+	</select>
+
+	
+
+	
+</mapper>
