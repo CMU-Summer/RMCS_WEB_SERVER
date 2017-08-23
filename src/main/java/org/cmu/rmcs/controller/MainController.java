@@ -77,5 +77,16 @@ public class MainController {
         return "welcome";
 
     }
+    @RequestMapping(value ="/logOut",method = {
+            RequestMethod.POST, RequestMethod.GET })
+    public String logOut( HttpServletRequest req,
+            HttpServletResponse res){
+        //清理session
+        req.getSession().removeAttribute("user");
+        return "login";
+
+    }
+    
+    
     
 }

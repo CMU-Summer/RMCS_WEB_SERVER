@@ -47,13 +47,14 @@ public class RedirectionFilter implements Filter{
         if( uri.startsWith("/css") ||
             uri.startsWith("/fonts") ||
             uri.startsWith("/js") || 
-            uri.startsWith("/img") 
+            uri.startsWith("/img") ||
+            uri.startsWith("/assets")
                 ){
             
             chain.doFilter(req, res);
             
         }else if(user !=null){
-            //未登录
+            //登录
             if(uri.endsWith("login") || uri.equals("/")){
                 if(!response.isCommitted())response.sendRedirect(mainPageUriString);
                 return ;
@@ -62,7 +63,7 @@ public class RedirectionFilter implements Filter{
                 chain.doFilter(req, res);
             }
         }else {
-            // 已登录
+            // 未登录
             if(uri.endsWith("login") || uri.equals("/")){
                 //这两个不拦截
                 chain.doFilter(req, res);
