@@ -2,15 +2,28 @@ package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.annotation.JSONField;
+@Service
 public class Actuator_field implements Serializable{
    /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    @JSONField(name="position")
     private double position;
+    
+    @JSONField(name="velocity")
     private double velocity;
+    
+    @JSONField(name="torque")
     private double torque;
+    
+    @JSONField(name="voltage")
     private double voltage;
+    
+    @JSONField(name="motorCurrent")
     private double motorCurrent;
 public double getPosition() {
     return position;

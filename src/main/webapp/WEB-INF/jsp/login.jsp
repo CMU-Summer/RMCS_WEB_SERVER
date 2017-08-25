@@ -45,7 +45,7 @@
     margin-top: 3%;">
     <div class="login-screen">
     <div class="login-icon">
-    <img src="img/login/icon.png" alt="Welcome to Mail App">
+    <img src="img/login/analytics-1.svg" alt="Welcome to Mail App">
     <h4>Welcome to <small>Robotics Monitor And Control System</small></h4>
     </div>
 

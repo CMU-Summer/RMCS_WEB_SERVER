@@ -1,7 +1,14 @@
 package org.cmu.rmcs.pojo;
 
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.annotation.JSONField;
+@Service
 public class FeedbackCustomStruct {
+    @JSONField(name="led_field")
     private Led_field led_field;
+    
+    @JSONField(name="actuator_field")
     private Actuator_field actuator_field;
 
     public Led_field getLed_field() {

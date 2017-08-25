@@ -3,15 +3,29 @@ package org.cmu.rmcs.pojo;
 import java.io.Serializable;
 import java.util.Vector;
 
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.annotation.JSONField;
+@Service
 public class CommandGroupStruct implements Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    
+    @JSONField(name="groupName")
     private String groupName;
+    
+    @JSONField(name="familys")
     private Vector<String> familys;
-
+    
+    @JSONField(name="names")
+    private Vector<String> names;
+    
+    @JSONField(name="fd")
+    private Vector<CommandStruct> fd;
+    int cmd;
     public String getGroupName() {
         return groupName;
     }
@@ -56,7 +70,5 @@ public class CommandGroupStruct implements Serializable {
         return serialVersionUID;
     }
 
-    private Vector<String> names;
-    private Vector<CommandStruct> fd;
-    int cmd;
+    
 }

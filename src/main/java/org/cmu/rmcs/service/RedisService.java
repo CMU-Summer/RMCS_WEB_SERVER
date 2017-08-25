@@ -3,6 +3,7 @@ package org.cmu.rmcs.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.cmu.rmcs.pojo.GroupStruct;
 import org.cmu.rmcs.pojo.GroupfeedbackCustomStruct;
@@ -30,4 +31,10 @@ public interface RedisService {
     
     public Map<String, ArrayList<String>> getFamilyAndItsNames();
     
+    //7  取出group的名字的set
+    
+    public Set<String> getGroupNamesFromCache();
+    
+    //8 取出部分group
+    public List<GroupStruct> getSomeGroupFromCache(Set<String> nameList);
 }

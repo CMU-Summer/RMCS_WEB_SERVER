@@ -11,7 +11,7 @@
 	<select id="getUser" resultType="org.cmu.rmcs.pojo.User">
 		SELECT * FROM user
 		 WHERE 
-		 passport LIKE  CONCAT(#{0},'') AND 
+		 userName LIKE  CONCAT(#{0},'') AND 
 		 password LIKE  CONCAT(#{1},'')
 	</select>
 

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop" 
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
-		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
         http://www.springframework.org/schema/beans 
-        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.springframework.org/schema/tx  
-        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd  
+        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd 
+        http://www.springframework.org/schema/websocket 
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd  
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd">
-        
-        
-        
+
+
+
 	<context:component-scan base-package="org.cmu.rmcs" />
 	<context:annotation-config />
-		<mvc:annotation-driven>
+	<mvc:annotation-driven>
 		<mvc:message-converters register-defaults="true">
 			<!-- 配置Fastjson支 持 -->
 			<bean
@@ -39,9 +39,9 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-	
 
-		<!-- 引入jdbc配置文件   -->
+
+	<!-- 引入jdbc配置文件 -->
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -53,14 +53,15 @@
 			</list>
 		</property>
 	</bean>
-		<!-- 自动扫描了所有的XxxxMapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mpper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
+	<!-- 自动扫描了所有的XxxxMapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mpper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="org.cmu.rmcs.dao" />
 	</bean>
 	<!-- 配置Mybatis的文件 ，mapperLocations配置**Mapper.xml文件位置，configLocation配置mybatis-config文件位置 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath*:org/cmu/rmcs/mapper/**/*Mapper.xml" />
+		<property name="mapperLocations"
+			value="classpath*:org/cmu/rmcs/mapper/**/*Mapper.xml" />
 		<property name="configLocation" value="classpath:/mybatis/mybatis-config.xml" />
 	</bean>
 
@@ -83,30 +84,23 @@
 		</property>
 	</bean>
 	<!-- 配置事务管理 -->
-	 <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">       
-          <property name="dataSource" ref="dataSource"></property>  
-    </bean>  
-    
-	<!--  <bean id="velocityEngine"
-		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-		<property name="velocityProperties">
-			<props>
-				<prop key="resource.loader">class</prop>
-				<prop key="class.resource.loader.class">
-					org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-				</prop>
-			</props>
-		</property>
-	</bean>-->
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean"> 
+		<property name="velocityProperties"> <props> <prop key="resource.loader">class</prop> 
+		<prop key="class.resource.loader.class"> org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader 
+		</prop> </props> </property> </bean> -->
 
 
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
-	<!-- <bean id="httpExceptionResolver" class="com.sohu.bigshow.pocket.exception.HttpExceptionResolver">
-		<property name="order" value="1" />
-		<property name="defaultStatusCode" value="404" />
-	</bean> -->
+	<!-- <bean id="httpExceptionResolver" class="com.sohu.bigshow.pocket.exception.HttpExceptionResolver"> 
+		<property name="order" value="1" /> <property name="defaultStatusCode" value="404" 
+		/> </bean> -->
 	<bean id="defaultHandlerExceptionResolver"
 		class="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver"></bean>
 
@@ -115,19 +109,11 @@
 	<mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />
 	<mvc:resources mapping="/assets/**" location="/WEB-INF/assets/" />
-	<!--  <bean id="velocityConfig"
-		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
-		<property name="resourceLoaderPath">
-			<value>/WEB-INF/jsp/</value>
-		</property>
-		<property name="velocityProperties">
-			<props>
-				<prop key="input.encoding">utf-8</prop>
-				<prop key="output.encoding">utf-8</prop>
-				<prop key="contentType">text/html;charset=utf-8</prop>
-			</props>
-		</property>
-	</bean> -->
+	<!-- <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer"> 
+		<property name="resourceLoaderPath"> <value>/WEB-INF/jsp/</value> </property> 
+		<property name="velocityProperties"> <props> <prop key="input.encoding">utf-8</prop> 
+		<prop key="output.encoding">utf-8</prop> <prop key="contentType">text/html;charset=utf-8</prop> 
+		</props> </property> </bean> -->
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -137,27 +123,38 @@
 		<property name="contentType" value="text/html;charset=utf-8" />
 		<property name="prefix">
 			<value>/WEB-INF/jsp/</value>
-		</property>  
-    	<property name="suffix">
-    		<value>.jsp</value>
-    	</property>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
 		<property name="cache">
 			<value>false</value>
 		</property>
 	</bean>
-  <!-- redis 配置 -->
-    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
-        <property name="maxIdle" value="${redis.maxIdle}" />  
-        <property name="maxTotal" value="${redis.maxActive}" />  
-        <property name="maxWaitMillis" value="${redis.maxWait}" />  
-        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />  
-    </bean>  
-      
-    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"  
-        p:host-name="${redis.host}" p:port="${redis.port}"  p:pool-config-ref="poolConfig"/>  
-      
-    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">  
-        <property name="connectionFactory"   ref="connectionFactory" />  
-    </bean>
+	<!-- redis 配置 -->
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxTotal" value="${redis.maxActive}" />
+		<property name="maxWaitMillis" value="${redis.maxWait}" />
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+	</bean>
+
+	<bean id="connectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+		p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.password}" p:pool-config-ref="poolConfig" />
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+	</bean>
+	<!-- websocket -->
+	<bean id="websocket" class="org.cmu.rmcs.websocket.handler.WebsocketGroupHandler" />
+	<bean id="websocket_1" class="org.cmu.rmcs.websocket.handler.WebSocketFeedbackHandler" />
+	<websocket:handlers>
+		<websocket:mapping path="/websocket/g_sock" handler="websocket" />
+		<websocket:mapping path="/websocket/fd_sock" handler="websocket_1" />
+		<websocket:handshake-interceptors>
+			<bean class="org.cmu.rmcs.websocket.HandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
 
 </beans>

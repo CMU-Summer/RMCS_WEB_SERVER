@@ -2,9 +2,21 @@ package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Led_field implements Serializable {
+    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    @JSONField(name="led_R")
     private int led_R;
+    
+    @JSONField(name="led_G")
     private int led_G;
+    
+    @JSONField(name="led_B")
     private int led_B;
 
     public int getLed_R() {

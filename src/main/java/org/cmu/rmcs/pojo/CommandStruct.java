@@ -2,8 +2,20 @@ package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.annotation.JSONField;
+@Service
 public class CommandStruct implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    @JSONField(name="actuator_field")
     private Actuator_field actuator_field;
+    
+    @JSONField(name="led_field")
     private Led_field led_field;
 
     public Actuator_field getActuator_field() {

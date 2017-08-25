@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImp implements UserService{
     @Resource
     private UserDao userDao;
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImp.class);
     public boolean isUser(String userName, String password) {
         // TODO Auto-generated method stub
