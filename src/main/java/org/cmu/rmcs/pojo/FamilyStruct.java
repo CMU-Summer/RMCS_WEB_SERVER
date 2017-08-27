@@ -2,7 +2,7 @@ package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Vector;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class FamilyStruct implements Serializable {
     private String name;
     
     @JSONField(name="nameList")
-    private Vector<NameStruct> nameList;
+    private List<NameStruct> nameList;
 
     public String getName() {
         return name;
@@ -28,11 +28,11 @@ public class FamilyStruct implements Serializable {
         this.name = name;
     }
 
-    public Vector<NameStruct> getNameList() {
+    public List<NameStruct> getNameList() {
         return nameList;
     }
 
-    public void setNameList(Vector<NameStruct> nameList) {
+    public void setNameList(List<NameStruct> nameList) {
         this.nameList = nameList;
     }
 

@@ -25,6 +25,8 @@
 	rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/font-awesome.css"
 	rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/css/font-awesome.min1.css"
+	rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/chartCss.css"
 	rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/verticalMenu.css"
@@ -47,7 +49,7 @@
 			<div class="navbar-collapse collapse">
 
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 16px;">
-					<li><a href="/logOut"><strong style="font-size: 20px;">sign out</strong> <span class="fa fa-sign-out" style="font-size: 25px;padding-left: 10px;"></span>
+					<li><a href="${pageContext.request.contextPath}/logOut"><strong style="font-size: 20px;">sign out</strong> <span class="fa fa-sign-out" style="font-size: 25px;padding-left: 10px;"></span>
 					</a></li>
 				</ul>
 			</div>
@@ -89,9 +91,9 @@
 								<span class="visible-xs navbar-brand">Sidebar menu</span>
 							</div>
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
-								<ul class="nav navbar-nav">
-									<li class="groupItem" groupId="Group1"><a href="#">Group1</a></li>
-									<li class="groupItem" groupId="Group2"><a href="#">Group2</a></li>
+								<ul class="nav navbar-nav groupMenu">
+                                    <!--这里会变得多起来-->
+									<li class="groupItemNops" ><a href="#"><i class="icon-spinner icon-spin"></i></a></li>
 								</ul>
 							</div>
 							<!--/.nav-collapse -->
@@ -116,14 +118,14 @@
 				<!--底下这个div是用来展示group的详细信息的，里面有每个group的一个tab,group增加和减少会，改变这里面的数量，跳转用data-taglog,根据菜单里面的数据源进行tab的隐藏和显示-->
 				<!--统一放到jumbotron里面-->
 				<!--刚打开的时候就一个展示的东西就行，然后等内容过来-->
-				<%--<div class="jumbotron" style="background-color: #f9f9f9;">--%>
-				<%--<div class="container" id="groupContent">--%>
-				<%--<div><img src="img/icons/svg/retina.svg" alt="Retina" style="margin-left: 45%;"></div>--%>
-				<%--<h1 class="text-info">Welcome to use RCMS,please to chose one group to monitor</h1>--%>
-				<%--</div>--%>
-				<%--</div>--%>
-				<div id="group1_g" class="jumbotron"
-					style="padding-right: 0px; padding-left: 0px; background-color: #f9f9f9">
+				<div class="jumbotron" style="background-color: #f9f9f9;">
+					<div class="container" id="groupContent">
+					<div><img src="img/icons/svg/retina.svg" alt="Retina" style="margin-left: 45%;"></div>
+					<h1 class="text-info">Welcome to use RCMS,please to chose one group to monitor</h1>
+					</div>
+				</div>
+				<div id="groupShowDiv" class="jumbotron"
+					style="padding-right: 0px; padding-left: 0px; background-color: #f9f9f9;display:none">
 					<!--最基本的应该是个巨幕，然后在巨幕里面进行-->
 					<div class="container" style="width: 100%">
 						<!--第一行是两列，2 10-->
@@ -147,7 +149,7 @@
 									<div class="sidebar-nav" style="text-align: right;">
 										<div class="navbar navbar-default" role="navigation">
 											<div class="navbar-collapse collapse sidebar-navbar-collapse">
-												<ul class="nav navbar-nav">
+												<ul class="nav navbar-nav moduleMenu">
 													<li class="moduleItem" moduleIndex="1" family="" name=""><a href="#">SEA snake | XA011</a></li>
 													<li class="moduleItem" moduleIndex="2" family="" name=""><a href="#">Spare | D021</a></li>
 
@@ -172,7 +174,7 @@
 									</div>
 									<!-- 显示最新一次的更新时间  -->
 									<div class="col-md-5">
-										<div>
+										<div class="feedbackTimeDiv">
 											LastFeedBack: <strong>2017-08-23 23:59:59</strong>
 										</div>
 									</div>
@@ -336,9 +338,10 @@
 			} ]
 		};
 	var groupMap = [];
+
 	groupMap["group1"] = {
 		groupName : "group1",
-		module : [ {
+		modules : [ {
 			family : "SEA snake",
 			name : "A011",
 			connected : true,
@@ -348,7 +351,7 @@
 			connected : true,
 		} ],//数组，每个成员是个对象，有module的信息
 		fdList : [ {//list，兼顾数据传输，,成员是对象，对象的5个字段是数组1个是对象，数组里面又是对象，对象里面是时间戳和值
-			motorCurrent : [ {
+			current : [ {
 				timeStamp : 124153647474,
 				value : 4.6
 			}, {
@@ -389,103 +392,7 @@
 				b : 0
 			}
 		}, {
-			motorCurrent : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			position : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			velocity : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			torque : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			voltage : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			led : {
-				r : 145,
-				g : 0,
-				b : 0
-			}
-		}, ],
-		
-	};
-	groupMap["group2"] = {
-		groupName : "group2",
-		module : [ {
-			family : "SEA snake",
-			name : "A011",
-			connected : true,
-		}, {
-			family : "Spare",
-			name : "D011",
-			connected : true,
-		} ],//数组，每个成员是个对象，有module的信息
-		fdList : [ {//list，兼顾数据传输，,成员是对象，对象的5个字段是数组1个是对象，数组里面又是对象，对象里面是时间戳和值
-			motorCurrent : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			position : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			velocity : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			torque : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			voltage : [ {
-				timeStamp : 124153647474,
-				value : 4.6
-			}, {
-				timeStamp : 124153647474,
-				value : 4.6
-			} ],
-			led : {
-				r : 145,
-				g : 0,
-				b : 0
-			}
-		}, {
-			motorCurrent : [ {
+			current : [ {
 				timeStamp : 124153647474,
 				value : 4.6
 			}, {
@@ -534,7 +441,7 @@
 				creatCharts();
 				//建立socket
 				establishGroupSocket();
-	
+				//正确设置div显示
 			
 			});
 
@@ -558,21 +465,77 @@
 	}
 	function groupSocketOpen(evt){
 	    //g_sock建立链接
-		swal("","established!"+evt,"success");
 	}
 	function groupSocketMessage(evt){
-	    //g_sock收到消息
+	    //g_sock收到消息,这个消息是个json对象
+        //里面字段为  deleteList addList stateList
+        //转json
+        var cmd= JSON.parse(evt.data);
+        if(cmd.addList.length>0){
+            //需要add操作
+            addGroup(cmd.addList)
+        }
 		swal("",evt.data,"info");
 	}
 	function groupSocketError(e){
 	    //g_sock发生错误
-		swal("",e,"error");
+		swal("",e.message,"error");
 	}
 	function groupSocketClose(evt){
 	    //g_sock关闭链接
 		swal("","closed","info");
 	}
-	function creatCharts(){
+	function addGroup(listToadd){
+        //这里面要做的事情，将group添加到字典里，字典存的对象比现在的复杂
+        $(".groupItemNops").css("display","none");//把那个转圈圈的隐藏起来
+        for(var groupInfo in listToadd){
+                //遍历这里面的数组
+                //1.创建字典条目
+                creatGroupIndist(groupInfo)
+                //2 放在页面上,注意字符串切割,还有设置key值
+                appendGroupItem(groupInfo);
+        }
+
+    }
+    function creatGroupIndist(groupInfo){
+        //在字典中创建条目
+            var newGroupItem = {
+                        groupName : "",
+                        modules : [],//数组，每个成员是个对象，有module的信息
+                        fdList : [],
+                    };
+            //
+            newGroupItem.groupName=groupInfo.groupName;
+            newGroupItem.modules=groupInfo.modules;
+            groupMap[groupInfo.groupName]=newGroupItem;//放入字典
+    }
+    function appendGroupItem(groupInfo){
+        //放置在菜单中去
+        //1 创建 条目元素
+        var groupName=groupInfo.groupName;
+        var groupName_sub=groupName.substring(0,groupName.indexOf("_g")); //截取，用来显示
+        var liElement=$('<li class="groupItem" ><a href="#"></a></li>');
+        //2 设置显示文本
+        liElement.find("a").text(groupName_sub);
+        //3 设置key值
+        liElement.attr("key",groupName);
+        //4 加入到ul中去
+        $(".groupMenu").append(liElement);
+        //5 重置点击方法
+        $(".groupItem").bind("click",function(){
+                onClick_groupMenu($(this));//进行处理
+        });
+    }
+    function onClick_groupMenu(thisJqEle){
+        //group菜单的点击事件
+        //1.右侧面板显示设置切换
+        //2.
+
+    }
+
+
+//--------------------------
+    function creatCharts(){
 		// 指定图表的配置项和数据
 	
 		creatSpecChart("voltage");

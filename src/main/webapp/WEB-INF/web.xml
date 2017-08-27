@@ -31,6 +31,7 @@
 			<param-name>forceEncoding</param-name>
 			<param-value>true</param-value>
 		</init-param>
+		    <async-supported>true</async-supported>  
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
@@ -40,10 +41,12 @@
 	<filter>
 		<filter-name>redirectionFilter</filter-name>
 		<filter-class>org.cmu.rmcs.filter.RedirectionFilter</filter-class>
+		    <async-supported>true</async-supported>  
 	</filter>
 	<filter-mapping>
 		<filter-name>redirectionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
+		
 	</filter-mapping>
 	
 	<servlet>

@@ -12,233 +12,167 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.BoundListOperations;
+import org.springframework.data.redis.core.BoundSetOperations;
+import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
 @Service
 public class RedisDao {
-    @Resource
-    protected RedisTemplate<Serializable, Serializable> redisTemplate;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     private static Logger LOGGER = LoggerFactory.getLogger(RedisDao.class);
 
     // 字符串获取 
 
     public String getStr(final String keyName) {
-        return redisTemplate.execute(new RedisCallback<String>() {
-
-            public String doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-
-                try {
-                    // 用来吧string 搞成字符数组的
-
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyByt = serializer.serialize(keyName);
-                    return new String(redisConnection.get(keyByt));// 返回的序列包装成字符串
-
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-
-                }
-                return new String("");
-            }
-        });
+        try {
+            BoundValueOperations<String, String> vOpt= redisTemplate.boundValueOps(keyName);
+            return  vOpt.get();
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+             return new String("");
+        }
+       
 
     }
 
     // 设置key,并给一个string
     public boolean setKeyAndValue(final String keyName, final String value) {
-        return redisTemplate.execute(new RedisCallback<Boolean>() {
-
-            public Boolean doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyByt = serializer.serialize(keyName);
-                    byte[] valueByt = serializer.serialize(value);
-                    return redisConnection.setNX(keyByt, valueByt);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                }
-                return false;
-            }
-        });
+        try {
+            
+            BoundValueOperations<String, String> vOpt= redisTemplate.boundValueOps(keyName);
+           
+            vOpt.set(value);
+            return true;
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return false;
+        }
+        
+     
 
     }
 
     // 获取数组,起始到结束
-    public List<String> getList(final String listKey, final int start,
+    public List<String> getList(final String listKey, final long start,
             final int end) {
-        return redisTemplate.execute(new RedisCallback<List<String>>() {
+        try {
+            BoundListOperations<String, String> lOpt=redisTemplate.boundListOps(listKey);
+            return lOpt.range(start, end);
 
-            public List<String> doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyByt = serializer.serialize(listKey);
-                    List<byte[]> bytesList = redisConnection.lRange(keyByt,
-                            start, end);
-                    ArrayList<String> resArrayList = new ArrayList<String>();
-                    for (byte[] bs : bytesList) {
-                        resArrayList.add(new String(bs));
-
-                    }
-                    return resArrayList;
-
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return new ArrayList<String>();
-                }
-
-            }
-        });
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return new ArrayList<>();
+        }
+        
+       
 
     }
 
     // 获取集合/包装成数组
-    public List<String> getSet(final String setKey) {
-        return redisTemplate.execute(new RedisCallback<List<String>>() {
-
-            public List<String> doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyByt = serializer.serialize(setKey);
-                    Set<byte[]> bytesList = redisConnection.sMembers(keyByt);//取集合里面的所有成员
-                    ArrayList<String> resArrayList = new ArrayList<String>();
-                    for (byte[] bs : bytesList) {
-                        resArrayList.add(new String(bs));
-                    }
-                    return resArrayList;
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return new ArrayList<String>();
-                }
-
-            }
-        });
+    public List<String> getSet( String setKey) {
+        
+     
+        try {
+            SetOperations<String, String> sOpt= redisTemplate.opsForSet();
+            boolean a=redisTemplate.hasKey(setKey);
+            Set<String> sets= sOpt.members(setKey);
+            ArrayList<String> resArrayList = new ArrayList<String>();
+            resArrayList.addAll(sets);
+            return resArrayList;
+           
+        } catch (Exception e) {
+            // TODO: handle exception 
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return new ArrayList<String>();
+        }
+        
+       
     }
 
     // 删除某个集合元素
-    public Long deletSetElement(final String setKey,final String value ) {
-        return redisTemplate.execute(new RedisCallback<Long>() {
-
-            public Long doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyByt = serializer.serialize(setKey);
-                    byte[] vByt=serializer.serialize(value);
-                    return redisConnection.sRem(keyByt, vByt);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return (long) 0;
-                }
-
-            }
-        });
+    public boolean deletSetElement(final String setKey,final String value ) {
+        try {
+            BoundSetOperations<String, String> bopts= redisTemplate.boundSetOps(setKey);
+            boolean nums=bopts.remove(value);
+        
+            return nums;
+           
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return false;
+        }
+ 
     }
 
     // 删除列表元素,
     public boolean deletListElementUntil(final String listkey,final int end) {
-        return redisTemplate.execute(new RedisCallback<Boolean>() {
-
-            public Boolean doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(listkey);
-                    redisConnection.lTrim(keyBty, end, -1);
-                    return true;
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return false;
-                }
-
-            }
-        });
+        try {
+            BoundListOperations<String, String> bopts= redisTemplate.boundListOps(listkey);
+            bopts.trim(end , -1);
+                
+        
+            return true;
+           
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return false;
+        }
+       
     }
     // 获得列表长度
     public long getListSize(final String listKey) {
-        return redisTemplate.execute(new RedisCallback<Long>() {
-
-            public Long doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(listKey);
-                 
-                    return redisConnection.lLen(keyBty);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return (long) -1;
-                }
-
-            }
-        });
+        try {
+            BoundListOperations<String, String> bopts= redisTemplate.boundListOps(listKey);
+            return bopts.size();
+ 
+           
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return -1;
+        }
+        
+        
+        
+        
+        
     }
     //获得集合长度
     public long getSetSize(final String setKey){
-        return redisTemplate.execute(new RedisCallback<Long>() {
-
-            public Long doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(setKey);
-                 
-                    return redisConnection.sCard(keyBty);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return (long) -1;
-                }
-
-            }
-        });
-        
-        
-        
+        try {
+            BoundSetOperations<String, String> bopts= redisTemplate.boundSetOps(setKey);
+            return bopts.size();
+ 
+           
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return -1;
+        }
+ 
     }
     
     
@@ -246,108 +180,85 @@ public class RedisDao {
     
     // 删除key
     public long deletKey(final String key) {
-        return redisTemplate.execute(new RedisCallback<Long>() {
-
-            public Long doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(key);
-                 
-                    return redisConnection.del(keyBty);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return (long) -1;
-                }
-
-            }
-        });
+        try {
+            
+           redisTemplate.delete(key);;
+            return 1;
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return -1;
+        }
+        
+        
+        
+     
     }
     
     //判断key是否存在
     public boolean isKeyExist(final String key){
-        return redisTemplate.execute(new RedisCallback<Boolean>() {
+        try {
+            return redisTemplate.hasKey(key);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return false;
+        }
 
-            public Boolean doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(key);
-                 
-                    return redisConnection.exists(keyBty);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return false;
-                }
-
-            }
-        });
-        
-        
     }
     
     
     //判断集合中是否有这个成员
     public boolean isInSet(final String key,final String value){
-        return redisTemplate.execute(new RedisCallback<Boolean>() {
-
-            public Boolean doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(key);
-                    byte[] valueBty=serializer.serialize(value);
-                    return redisConnection.sIsMember(keyBty, valueBty);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return false;
-                }
-
-            }
-        });
+        try {
+            BoundSetOperations<String, String> sOpt = redisTemplate.boundSetOps(key);
+            return sOpt.isMember(value);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return false;
+        }  
+//        return redisTemplate.execute(new RedisCallback<Boolean>() {
+//
+//            public Boolean doInRedis(RedisConnection redisConnection)
+//                    throws DataAccessException {
+//                // TODO Auto-generated method stub
+//                try {
+//                    // 用来吧string 搞成字符数组的
+//                    RedisSerializer<String> serializer = redisTemplate
+//                            .getStringSerializer();
+//                    byte[] keyBty=serializer.serialize(key);
+//                    byte[] valueBty=serializer.serialize(value);
+//                    return redisConnection.sIsMember(keyBty, valueBty);
+//                } catch (DataAccessException e) {
+//                    // TODO: handle exception
+//                    e.printStackTrace();
+//                    LOGGER.error(e.getMessage());
+//                    return false;
+//                }
+//
+//            }
+//        });
         
         
     }
 
     //给集合中添加成员
-    public long addValueToset(final String key,final String value){
-        
-        return redisTemplate.execute(new RedisCallback<Long>() {
+    public boolean addValueToset(final String key,final String value){
+        try {
+            BoundSetOperations<String, String> sOpt = redisTemplate.boundSetOps(key);
+            return sOpt.add(value);
 
-            public Long doInRedis(RedisConnection redisConnection)
-                    throws DataAccessException {
-                // TODO Auto-generated method stub
-                try {
-                    // 用来吧string 搞成字符数组的
-                    RedisSerializer<String> serializer = redisTemplate
-                            .getStringSerializer();
-                    byte[] keyBty=serializer.serialize(key);
-                    byte[] valueBty=serializer.serialize(value);
-                    return redisConnection.sAdd(keyBty, valueBty);
-                } catch (DataAccessException e) {
-                    // TODO: handle exception
-                    e.printStackTrace();
-                    LOGGER.error(e.getMessage());
-                    return (long)-1;
-                }
-
-            }
-        });
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return false;
+        }
         
     }
     

@@ -1,5 +1,35 @@
 .dataChart{
-    width: 429;height: 250px;
+    width: 429px;
+    height: 250px;
+
+
+}
+.menuIcon{
+     display: none;
+     padding-right: 27px;
+     margin-top: -3px;
+     font-size: 11px;
+     transition: ease-in;
+ }
+.moduleMenuIcon{
+    display: none;
+    padding-right: 27px;
+    margin-top: -3px;
+    font-size: 11px;
+    transition: ease-in;
+}
+.dataShow{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+.moduleConnectIcon{
+    padding-left: 5px;
+
+
+}
+.ledData{
+    padding-left: 7px;
 
 
 }

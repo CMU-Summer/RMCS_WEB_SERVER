@@ -1,7 +1,7 @@
 package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,13 @@ public class GroupfeedbackCustomStruct implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     @JSONField(name = "positionsVec")
-    private Vector<Double> positionsVec;
+    private List<Double> positionsVec;
     
     @JSONField(name = "velocitysVec")
-    private Vector<Double> velocitysVec;
+    private List<Double> velocitysVec;
     
     @JSONField(name = "torqueVec")
-    private Vector<Double> torqueVec;
+    private List<Double> torqueVec;
     
     @JSONField(name = "groupName")
     private String groupName;
@@ -28,29 +28,29 @@ public class GroupfeedbackCustomStruct implements Serializable {
     private long timeStamp;
     
     @JSONField(name = "moduleFeedBackVec")
-    private Vector<FeedbackCustomStruct> moduleFeedBackVec;
+    private List<FeedbackCustomStruct> moduleFeedBackVec;
 
-    public Vector<Double> getPositionsVec() {
+    public List<Double> getPositionsVec() {
         return positionsVec;
     }
 
-    public void setPositionsVec(Vector<Double> positionsVec) {
+    public void setPositionsVec(List<Double> positionsVec) {
         this.positionsVec = positionsVec;
     }
 
-    public Vector<Double> getVelocitysVec() {
+    public List<Double> getVelocitysVec() {
         return velocitysVec;
     }
 
-    public void setVelocitysVec(Vector<Double> velocitysVec) {
+    public void setVelocitysVec(List<Double> velocitysVec) {
         this.velocitysVec = velocitysVec;
     }
 
-    public Vector<Double> getTorqueVec() {
+    public List<Double> getTorqueVec() {
         return torqueVec;
     }
 
-    public void setTorqueVec(Vector<Double> torqueVec) {
+    public void setTorqueVec(List<Double> torqueVec) {
         this.torqueVec = torqueVec;
     }
 
@@ -70,12 +70,12 @@ public class GroupfeedbackCustomStruct implements Serializable {
         this.timeStamp = timeStamp;
     }
 
-    public Vector<FeedbackCustomStruct> getModuleFeedBackVec() {
+    public List<FeedbackCustomStruct> getModuleFeedBackVec() {
         return moduleFeedBackVec;
     }
 
     public void setModuleFeedBackVec(
-            Vector<FeedbackCustomStruct> moduleFeedBackVec) {
+            List<FeedbackCustomStruct> moduleFeedBackVec) {
         this.moduleFeedBackVec = moduleFeedBackVec;
     }
 

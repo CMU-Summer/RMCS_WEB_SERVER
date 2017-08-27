@@ -108,6 +108,7 @@
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" />
 	<mvc:resources mapping="/img/**" location="/WEB-INF/img/" />
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" />
+	<mvc:resources mapping="/font/**" location="/WEB-INF/font/" />
 	<mvc:resources mapping="/assets/**" location="/WEB-INF/assets/" />
 	<!-- <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer"> 
 		<property name="resourceLoaderPath"> <value>/WEB-INF/jsp/</value> </property> 
@@ -133,18 +134,21 @@
 	</bean>
 	<!-- redis 配置 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
-		<property name="maxIdle" value="${redis.maxIdle}" />
-		<property name="maxTotal" value="${redis.maxActive}" />
-		<property name="maxWaitMillis" value="${redis.maxWait}" />
-		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" />
+		 <property name="maxIdle" value="${redis.maxIdle}" />  
+        <property name="maxActive" value="${redis.maxActive}" />  
+        <property name="maxWait" value="${redis.maxWait}" />  
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />  
 	</bean>
 
 	<bean id="connectionFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-		p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.password}" p:pool-config-ref="poolConfig" />
+		p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.password}" p:use-pool="true" p:pool-config-ref="poolConfig" />
 
-	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
-		<property name="connectionFactory" ref="connectionFactory" />
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate" 
+	p:enable-transaction-support="false"  
+	p:connection-factory-ref="connectionFactory" 
+	>
+	
 	</bean>
 	<!-- websocket -->
 	<bean id="websocket" class="org.cmu.rmcs.websocket.handler.WebsocketGroupHandler" />

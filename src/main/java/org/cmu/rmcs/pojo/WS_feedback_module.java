@@ -23,8 +23,8 @@ public class WS_feedback_module implements Serializable {
     private   List<WS_feedback_value>  voltage= new ArrayList<>();
     @JSONField(name="velocity")
     private   List<WS_feedback_value>  velocity= new ArrayList<>();
-    @JSONField(name="led_field")
-    private  Led_field led_field;
+    @JSONField(name="led_fields")
+    private  List<Led_field>  led_field =new ArrayList<>();
     
     public List<WS_feedback_value> getCurrent() {
         return current;
@@ -56,10 +56,10 @@ public class WS_feedback_module implements Serializable {
     public void setVelocity(List<WS_feedback_value> velocity) {
         this.velocity = velocity;
     }
-    public Led_field getLed_field() {
+    public List<Led_field> getLed_field() {
         return led_field;
     }
-    public void setLed_field(Led_field led_field) {
+    public void setLed_field(List<Led_field> led_field) {
         this.led_field = led_field;
     }
     

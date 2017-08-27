@@ -18,6 +18,7 @@ import org.jsoup.helper.StringUtil;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 @Service
 public class RedisServiceImp implements RedisService{
     @Resource
@@ -31,7 +32,9 @@ public class RedisServiceImp implements RedisService{
         for(String gname : groupNameList){
             if(redisDao.isKeyExist(gname)){
                 String jsonString=redisDao.getStr(gname);
-                GroupStruct groupStruct=(GroupStruct) JSONObject.parse(jsonString);
+                JSONObject jsonObject=JSONObject.parseObject(jsonString);
+                    
+                GroupStruct groupStruct=JSONObject.toJavaObject(jsonObject, GroupStruct.class);
                 groupStructs.add(groupStruct);
                 
             }
@@ -66,13 +69,15 @@ public class RedisServiceImp implements RedisService{
 
     @Override
     public List<GroupfeedbackCustomStruct> getGroupFdList(String groupName,
-            int lastEnd) {
+            long lastEnd) {
         // TODO Auto-generated method stub
         //从上一次的地方一直往后取
       List<String> fdJsonList= redisDao.getList(groupName+ContantUtil.POSTFIX_GROUP_FEEDBACK_KEY, lastEnd  , -1);
       List<GroupfeedbackCustomStruct> fdCustomStructs=new ArrayList<>();
       for(String s : fdJsonList){
-          fdCustomStructs.add((GroupfeedbackCustomStruct) JSONObject.parse(s));
+          JSONObject jsonObject=JSONObject.parseObject(s);
+          GroupfeedbackCustomStruct groupfeedbackCustomStruct=JSONObject.toJavaObject(jsonObject, GroupfeedbackCustomStruct.class);
+          fdCustomStructs.add(groupfeedbackCustomStruct);
           
       }
       return fdCustomStructs;
@@ -106,9 +111,15 @@ public class RedisServiceImp implements RedisService{
     @Override
     public Set<String> getGroupNamesFromCache() {
         // TODO Auto-generated method stub
-        
-        
-        return new HashSet<String>(redisDao.getSet(ContantUtil.GROUP_SET_KEY));
+        try {
+            List<String> a=redisDao.getSet(ContantUtil.GROUP_SET_KEY);
+             return new HashSet<String>(a);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return new HashSet<String>();
+        }
+       
     }
 
     @Override
@@ -118,7 +129,9 @@ public class RedisServiceImp implements RedisService{
         for(String s:nameList){
             String groupJsonString=redisDao.getStr(s);
             if(StringUtil.isBlank(groupJsonString) == false){
-                list.add((GroupStruct) JSONObject.parse(groupJsonString));
+                JSONObject jsonObject=JSONObject.parseObject(groupJsonString);
+                GroupStruct groupStruct=JSONObject.toJavaObject(jsonObject, GroupStruct.class);
+                list.add(groupStruct);
             }
             
             
@@ -126,6 +139,19 @@ public class RedisServiceImp implements RedisService{
         return list;
         
 
+    }
+
+    @Override
+    public long getSetOrListSize(String setOrListKey, int type) {
+        // TODO Auto-generated method stub
+        if(type == ContantUtil.LEN_TYPE_LIST){
+            return redisDao.getListSize(setOrListKey);
+            
+        }
+        else {
+            return redisDao.getSetSize(setOrListKey);
+            
+        }
     }
 
 }

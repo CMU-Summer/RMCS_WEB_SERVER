@@ -1,7 +1,7 @@
 package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ public class CommandGroupStruct implements Serializable {
     private String groupName;
     
     @JSONField(name="familys")
-    private Vector<String> familys;
+    private List<String> familys;
     
     @JSONField(name="names")
-    private Vector<String> names;
+    private List<String> names;
     
     @JSONField(name="fd")
-    private Vector<CommandStruct> fd;
+    private List<CommandStruct> fd;
     int cmd;
     public String getGroupName() {
         return groupName;
@@ -34,27 +34,27 @@ public class CommandGroupStruct implements Serializable {
         this.groupName = groupName;
     }
 
-    public Vector<String> getFamilys() {
+    public List<String> getFamilys() {
         return familys;
     }
 
-    public void setFamilys(Vector<String> familys) {
+    public void setFamilys(List<String> familys) {
         this.familys = familys;
     }
 
-    public Vector<String> getNames() {
+    public List<String> getNames() {
         return names;
     }
 
-    public void setNames(Vector<String> names) {
+    public void setNames(List<String> names) {
         this.names = names;
     }
 
-    public Vector<CommandStruct> getFd() {
+    public List<CommandStruct> getFd() {
         return fd;
     }
 
-    public void setFd(Vector<CommandStruct> fd) {
+    public void setFd(List<CommandStruct> fd) {
         this.fd = fd;
     }
 

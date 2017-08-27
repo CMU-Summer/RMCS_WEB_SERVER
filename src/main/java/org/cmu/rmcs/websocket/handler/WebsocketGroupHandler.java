@@ -45,14 +45,11 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session,
             TextMessage message) throws Exception {
-        chatTextMessageHandler(message.getPayload());
+      
         super.handleTextMessage(session, message);
     }
 
-    private void chatTextMessageHandler(String payload) {
-        // TODO Auto-generated method stub
-        logger.debug("handle text message......");
-    }
+   
 
     // 连接建立后处理
     // 这里面要处理的信息就是
@@ -65,8 +62,8 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session)
             throws Exception {
-        System.out.println("connect to the websocket chat success......");
-        System.out.println("thread:" + Thread.currentThread().getId());
+        System.out.println("connect to the  group websocket success......");
+
         // 初始化线程变量
         if (sessionLocal.get() == null)
             sessionLocal.set(session);
@@ -76,6 +73,11 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
             groupNameSet.set(new HashSet<String>());
         // 以循环的方式去处理
         while (true) {
+            if(session.isOpen()==false){
+                System.out.println("group sock is closed");
+                return;
+                
+            }
             WS_group_sock_cmd ws_group_sock_cmd = new WS_group_sock_cmd();
             List<GroupStruct> cacheList = groupNumsTaskWork(ws_group_sock_cmd);// group的数目
             groupStateTaskWork(ws_group_sock_cmd, cacheList);// group的状态
@@ -108,6 +110,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
                 logger.error("thread sleep error "+e.getMessage());
                 e.printStackTrace();
             }
+            System.out.println("next....");
         }
 
     }
@@ -156,6 +159,8 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
             // 还需要添加到咱们的map里面
             putOrDeleteNewMapInLocalMap(null, groupStructs,
                     ContantUtil.GROUP_MAP_PUT);// 放的方式更新map
+            //傻逼，还要放到咱们的set里面
+            updateGroupSet(groupStructs,null,ContantUtil.SET_UPDATE_ADD);
             // 打包
             ws_group_sock_cmd.packageCmd(ContantUtil.SIGN_PACKAGE_GROUP_ADD,
                     group_infos); // 这个命令就已经打包好了
@@ -168,6 +173,8 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
             // 在咱们map里面删除
             putOrDeleteNewMapInLocalMap(deleteSet, null,
                     ContantUtil.GROUP_MAP_DELETE);// 删的方式更新map
+            //在咱们set里面删除
+            updateGroupSet(null,deleteSet,ContantUtil.SET_UPDATE_DELETE);
             // 打包
             ws_group_sock_cmd.packageCmd(ContantUtil.SIGN_PACKAGE_GROUP_DEC,
                     deleteList);// 打包list
@@ -204,7 +211,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     private void analysisGroupNumsFromCache(Set<String> groupSetadd,
             Set<String> groupSetdelete) {
         // 分析当前线程里面的group的set和服务器的set有什么不一样
-        Set<String> thisThreadGroupSet = this.groupNameSet.get();
+        Set<String> thisThreadGroupSet = groupNameSet.get();
         Set<String> cacheGroupSet = this.redisServiceImp.getGroupNamesFromCache();// 这个set是服务器最新的
         // 现在要对比这两个set得出结论
         // 先分析谁没有了：
@@ -252,8 +259,8 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     public boolean isStateChange(GroupStruct oldG, GroupStruct newG) {
         // 两个结构的状态是否一致
         for (int i = 0; i < oldG.getFamilyList().size(); i++) {
-            FamilyStruct fold = oldG.getFamilyList().elementAt(i);
-            FamilyStruct fNew = newG.getFamilyList().elementAt(i);
+            FamilyStruct fold = oldG.getFamilyList().get(i);
+            FamilyStruct fNew = newG.getFamilyList().get(i);
             for (int j = 0; j < fold.getNameList().size(); j++) {
                 NameStruct nOld = fold.getNameList().get(j);
                 NameStruct nNew = fNew.getNameList().get(j);
@@ -267,7 +274,25 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
         }
         return false;// 都到这里了，说明没有改变过
     }
-
+    private void updateGroupSet(List<GroupStruct> gList,Set<String> nameStrings,int type){
+        if(type == ContantUtil.SET_UPDATE_ADD){
+            //加到集合里面去
+            for(GroupStruct s:gList){
+                groupNameSet.get().add(s.getName());
+            }
+            
+        }else if(type == ContantUtil.SET_UPDATE_DELETE){
+            //从集合中删除
+            for(String s:nameStrings){
+                groupNameSet.get().remove(s);
+            }
+            
+        }
+        
+        
+        
+        
+    }
     private void putOrDeleteNewMapInLocalMap(Set<String> strList,
             List<GroupStruct> groupStructList, int type) {
         // 更新咱们的map,

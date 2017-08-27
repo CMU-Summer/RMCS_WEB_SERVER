@@ -46,9 +46,11 @@ public class RedirectionFilter implements Filter{
         }
         if( uri.startsWith("/css") ||
             uri.startsWith("/fonts") ||
+            uri.startsWith("/font") ||
             uri.startsWith("/js") || 
             uri.startsWith("/img") ||
-            uri.startsWith("/assets")
+            uri.startsWith("/assets") ||
+            uri.startsWith("/websocket")
                 ){
             
             chain.doFilter(req, res);

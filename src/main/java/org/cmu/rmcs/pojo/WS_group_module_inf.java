@@ -16,6 +16,7 @@ public class WS_group_module_inf implements Serializable {
     private String family = new String();
     @JSONField(name="name")
     private String name =new String();
+    @JSONField(name="connected")
     private boolean connected =false;// 是否连接
 
     public String getFamily() {

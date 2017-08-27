@@ -21,7 +21,7 @@ public interface RedisService {
     public boolean isGroupInCache(String groupName);//
     
     //4，取某个group的feedbacklist的指定位置以后的所有条，位置在webSocket里面维护
-    public List<GroupfeedbackCustomStruct> getGroupFdList(String groupName,int lastEnd);
+    public List<GroupfeedbackCustomStruct> getGroupFdList(String groupName,long lastEnd);
     
     //5.删除一个group 1.删group set里面的值 2.删 redis里面的gname_g的键，3 删_gfd的键
     
@@ -37,4 +37,8 @@ public interface RedisService {
     
     //8 取出部分group
     public List<GroupStruct> getSomeGroupFromCache(Set<String> nameList);
+    
+    //9 获得list或set的长度
+    public long getSetOrListSize(String setOrListKey,int type);
+    
 }
