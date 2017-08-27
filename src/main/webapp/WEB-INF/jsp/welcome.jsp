@@ -20,7 +20,7 @@
 	rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/flat-ui.css"
 	rel="stylesheet" />
-<link 
+<link
 	href="${pageContext.request.contextPath}/css/bootstrap-treeview.min.css"
 	rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/font-awesome.css"
@@ -31,7 +31,7 @@
 <link href="${pageContext.request.contextPath}/css/chartCss.css"
 	rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/css/verticalMenu.css"
-	rel="stylesheet" /> 
+	rel="stylesheet" />
 <link rel="shortcut icon"
 	href="${pageContext.request.contextPath}/img/favicon.ico" />
 </head>
@@ -63,7 +63,7 @@
 
 
 	</div>
- 
+
 	<!--应该是个3 9布局-->
 	<div class="container" style="width: 100%">
 		<div class="row pbl">
@@ -71,7 +71,7 @@
 				<!--菜单,菜单里面的内容是由websocket写入的，增加的时候，会给下面的添加，减少的时候，会删除下面的，改变的时候，状态，会修改-->
 				<div class="row" style="margin-bottom: -23px;">
 					<div class="sidebar-nav">
-						<div class="navbar navbar-default" role="navigation"> 
+						<div class="navbar navbar-default" role="navigation">
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
 								<ul class="nav navbar-nav">
 									<li class="active"><a href="#">Groups</a></li>
@@ -96,7 +96,7 @@
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
 								<ul class="nav navbar-nav groupMenu">
 									<!--这里会变得多起来-->
-									<li class="groupItemNops"><a href="#"><i
+									<li class="groupItemNops"><a href="#" ><i
 											class="icon-spinner icon-spin"></i></a></li>
 								</ul>
 							</div>
@@ -109,14 +109,14 @@
 						<div class="navbar navbar-default" role="navigation">
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
 								<ul class="nav navbar-nav">
-									<li class="addGroupItem" style="text-align: center"><a
+									<li class="addGroupItem" data-toggle="modal" data-target="#addGroupModal" style="text-align: center"><a
 										href="#"><span class="fa fa-plus"
 											style="padding: 5px; font-size: 20px;"></span></a></li>
 								</ul>
 							</div>
 							<!--/.nav-collapse -->
 						</div>
-					</div>
+					</div> 
 
 				</div>
 			</div>
@@ -131,8 +131,8 @@
 							<img src="img/icons/svg/retina.svg" alt="Retina"
 								style="margin-left: 45%;">
 						</div>
-						<h1 class="text-info">Welcome to use RCMS,please to chose one
-							group to monitor</h1>
+						<h1 class="text-info">Welcome to use RCMS,please chose one
+							group to monitor!</h1>
 					</div>
 				</div>
 				<div id="groupShowDiv" class="jumbotron"
@@ -198,10 +198,11 @@
 									<!-- 电压 电流 -->
 									<div class="col-md-5 datazone">
 										<!-- 表明是电压表 -->
-										<div class="row pbl">
+										<div class="row pbl"> 
 											<div class="col-md-5">
-												<label class="checkbox" for="voltage-switch">
-													<input type="checkbox" class="voltage-switch chartsWitch"  data-toggle="checkbox" value="" id="voltage-switch" >
+												<label class="checkbox" for="voltage-switch"> <input
+													type="checkbox" class="voltage-switch chartsWitch"
+													data-toggle="checkbox" value="" id="voltage-switch">
 													voltage
 												</label>
 											</div>
@@ -216,9 +217,10 @@
 										<!-- 开关 -->
 										<div class="row pbl">
 											<div class="col-md-5">
-												<label class="checkbox" for="current-switch">
-													<input type="checkbox" class="current-switch chartsWitch"  data-toggle="checkbox" value="" id="current-switch" >
-														current
+												<label class="checkbox" for="current-switch"> <input
+													type="checkbox" class="current-switch chartsWitch"
+													data-toggle="checkbox" value="" id="current-switch">
+													current
 												</label>
 											</div>
 										</div>
@@ -237,8 +239,9 @@
 
 										<div class="row pbl">
 											<div class="col-md-5">
-												<label class="checkbox" for="velocity-switch">
-													<input type="checkbox" class="velocity-switch chartsWitch"  data-toggle="checkbox" value="" id="velocity-switch" >
+												<label class="checkbox" for="velocity-switch"> <input
+													type="checkbox" class="velocity-switch chartsWitch"
+													data-toggle="checkbox" value="" id="velocity-switch">
 													velocity
 												</label>
 											</div>
@@ -255,9 +258,10 @@
 										<div class="row pbl">
 											<div class="col-md-5">
 
-												<label class="checkbox" for="torque-switch">
-													<input type="checkbox" class="torque-switch chartsWitch"  data-toggle="checkbox" value="" id="torque-switch" >
-														torque
+												<label class="checkbox" for="torque-switch"> <input
+													type="checkbox" class="torque-switch chartsWitch"
+													data-toggle="checkbox" value="" id="torque-switch">
+													torque
 												</label>
 											</div>
 										</div>
@@ -279,8 +283,9 @@
 										<div class="row pbl">
 											<div class="col-md-5">
 
-												<label class="checkbox" for="position-switch">
-													<input type="checkbox" class="position-switch chartsWitch"  data-toggle="checkbox" value="" id="position-switch" >
+												<label class="checkbox" for="position-switch"> <input
+													type="checkbox" class="position-switch chartsWitch"
+													data-toggle="checkbox" value="" id="position-switch">
 													position
 												</label>
 											</div>
@@ -301,7 +306,32 @@
 
 		</div>
 	</div>
-
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">RMCS</button>
+					<h4 class="modal-title" id="myModalLabel">Add Group</h4>
+				</div>
+				<div class="modal-body familyMap" id="familyMap">
+					<!--将会在这里出现个树的结构-->
+				</div>
+				<div class="inputDiv">
+						<input type="text" class="form-control input-sm gnameInput" placeholder="input groupName" />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default addGroupCancelButton" data-dismiss="modal">close
+					</button>
+					<button type="button" class="btn btn-primary addGroupButton">submit</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
 
 
 
@@ -313,6 +343,7 @@
 		nowGroup : null, //字符串，当前group的名字
 		nowModuleIndex : -1,//在group里面的偏移
 		groupChange : 0,
+		familyMap:null,
 	};
 	var websokcets = {
 		g_sock : null,
@@ -402,11 +433,11 @@
 				timeStamp : 124153647474,
 				value : 4.6
 			} ],
-			led_fields : [{
+			led_fields : [ {
 				led_R : 145,
 				led_G : 0,
 				led_B : 0
-			}]
+			} ]
 		}, {
 			current : [ {
 				timeStamp : 124153647474,
@@ -450,29 +481,217 @@
 			}
 		}, ],
 	};
-	window.onbeforeunload=function checkLeave(e){
-		var evt = e ? e : (window.event ? window.event : null);  //此方法为了在firefox中的兼容
-		if(websokcets.g_sock!=null && websokcets.g_sock!=undefined )websokcets.g_sock.close();
-		if(websokcets.fd_sock!=null && websokcets.fd_sock!=undefined )websokcets.fd_sock.close();
+	window.onbeforeunload = function checkLeave(e) {
+		var evt = e ? e : (window.event ? window.event : null); //此方法为了在firefox中的兼容
+		if (websokcets.g_sock != null && websokcets.g_sock != undefined)
+			websokcets.g_sock.close();
+		if (websokcets.fd_sock != null && websokcets.fd_sock != undefined)
+			websokcets.fd_sock.close();
 	}
-	
+
 	$(document).ready(function() {
 
 		//创建图表
 		creatCharts();
 
 		//给开关设置绑定时间
-		$(".chartsWitch").bind("click",function(e){
+		$(".chartsWitch").bind("click", function(e) {
 			onClick_switch($(this));
 		});
+		//添加group按钮绑定事件
+
+		$(".addGroupItem").bind("click", function(e) {
+				getFamilyAndItNames();//去访问服务器，获得familyMap
+		});
+		//添加 group submit绑定事件
+		$(".addGroupButton").bind("click", function(e) {
+			sumitGroupToAdd();//1.抽取树内容，2 . 去访问服务器，3. 获得提交结果
+		});
+		$(".addGroupCancelButton").bind("click", function(e) {
+			closeGroupAddingModal();//销毁树
+		});
+
+
 		//建立socket
 		establishGroupSocket();
 		establishFeedbackSocket();
 		//正确设置div显示【这个可以静态设置的】
 
-
 	});
+	function getFamilyAndItNames(){
+		//从服务器获得family和它的names的对象 {list:[{name:"",nameList:["","",""]}]}
+		//之前的树没销毁，就把他销毁掉
+		if(state.familyMap !=null)$("#familyMap").treeview("remove");
+		$.ajax({
+				url:"${pageContext.request.contextPath}/getFamilyAndItNames", //获取family和names
+				type:"POST",
+				data:{},
+				dataType:"JSON",
+				beforeSend:function(){
+					//送之前可以显示一句话
+					var tempDiv=$('<div><i class="icon-spinner icon-spin"></i><strong>please wait to get modules</strong></div>')
+					$(".familyMap").empty();//清空
+					//然后坠上
+					$(".familyMap").append(tempDiv);
+				},
+				success:function(data){
+					//这个data就是json格式的，现在把他转换成一个树,坠在上面
+					changeFamilyAndItNamesMapToTree(data);
+				},
+				error:function(e){
+						//出错了，应该关闭
+						swal({
+								title: "Sorry",
+								text: "you can't add group,please notice the admin!",
+								type: "error",
+								confirmButtonText: "ok",
+							},
+							function(){
+								//1.关闭modal,2 销毁familyMap树
+								closeGroupAddingModal();
+							});
+				}
 
+
+		});
+	}
+	function changeFamilyAndItNamesMapToTree(data){
+		//转换成树，然后坠上去
+		 var list=data.list;
+		 var treeOpt=[];
+		 for(var i=0;i<list.length;i++){
+			var fNode={};
+			fNode.text=list[i].name;//根节点是name
+			fNode.nodeId=list[i].name;//根节点是name
+			fNode.selectable=false;//不让选根
+			fNode.nodes=[];
+			var nameList=list[i].nameList; //字符串的数组
+			for(var j=0;j<nameList.length;j++){
+				fNode.nodes.push({text:nameList[j],nodeId:nameList[j]})
+			}
+			treeOpt.push(fNode); //把这个节点放进去
+		}
+		//清空树在的div
+		$("#familyMap").empty();
+		//显示树
+		$("#familyMap").treeview({
+			data:treeOpt,
+			multiSelect:true,
+			levels:5,
+		});
+
+		state.familyMap="tree";
+
+	}
+
+	function sumitGroupToAdd(){
+		//提交group
+		if(state.familyMap == null){
+			swal("sorry!","you must choose some modules!","error");
+		}else {
+			//先判断输入group的名字合不合法
+			if(checkGroupName() == false){
+				swal("Sorry","the name cannot contain the '_' or any space","error");
+				return ;
+			}
+			var list=	$('#familyMap').treeview('getSelected');
+			if(list.length<0){
+					//没有选,
+				swal("Sorry","you must chose one module !","error");
+				return ;
+			}
+			//从树种获取所有选择的节点
+			//转换成一个json结构，
+			var json=changeToGroupJsonObject(list);
+			//访问服务器
+			$.ajax({
+				url:"${pageContext.request.contextPath}/addGroup", //获取family和names
+				type:"POST",
+				data:JSON.stringify(json),
+				dataType:"JSON",
+				contentType:"application/json",
+				success:function(data){
+					if(data.result == false || data.result == "false"){
+						swal("Sorry",data.des,"error");
+
+					}else {
+
+					 	swal("Ok!",data.des,"success");
+					}
+				},
+				error:function(e){
+					swal("Sorry","add group failed","error");
+				}
+			});
+
+			//用弹出框展示结果
+
+		}
+	}
+	function checkGroupName(){
+		var value=$(".gnameInput").eq(0).val();
+		value=value.replace(/\s+/g, "");
+		if(value.indexOf("_")!=-1 || value =="" || value.indexOf(" ")!=-1 ){
+			return false;
+		}
+		return true;
+	}
+	function changeToGroupJsonObject(list){
+		//吧树内容转换成json结构
+
+		//先抽取所有父节点，
+
+		var familyKey=[];//family的字典
+		//选了的，一定是子节点，去找他的父节点，然后保存成json
+		for(var i=0;i<list.length;i++){
+				var familyNode= $('#familyMap').treeview('getParent', list[i]); //找到family所在的节点
+				if(familyKey[familyNode.text] ==null || familyKey[familyNode.text] ==undefined){
+						//这个字典创建一个对象
+					familyKey[familyNode.text]={
+							nameList:[]
+					};
+					//push进来
+					familyKey[familyNode.text].nameList.push({
+							name:list[i].text,
+							connected:0,//未连接
+					});
+				}else{
+					//已经有了
+					//push进来
+					familyKey[familyNode.text].nameList.push({
+							name:list[i].text,
+							connected:0,//未连接
+					});
+				}
+		}
+		//开始构建json对象
+		var json={
+			name:$(".gnameInput").eq(0).val(),
+			familyList:[]
+
+		}
+		for(var key in familyKey){
+				//
+				var fstruct={
+					name:key,
+					nameList:[]
+				}
+				for(var i=0;i<familyKey[key].nameList.length;i++){
+						//这里面的每个都push 到naeList里面去
+					fstruct.nameList.push(familyKey[key].nameList[i]);
+				}
+				json.familyList.push(fstruct);
+		}
+		return json;//返回组建好的
+	}
+	function closeGroupAddingModal(){
+		//关闭模态框触发，
+		$('#addGroupModal').modal('hide');
+		//销毁树
+		if(state.familyMap != null){$("#familyMap").treeview("remove");}
+		//清空
+		state.familyMap=null;
+	}
 	function establishFeedbackSocket() {
 		if ('WebSocket' in window) {
 			websokcets.fd_sock = new WebSocket(
@@ -532,11 +751,11 @@
 	}
 	function groupSocketError(e) {
 		//g_sock发生错误
-		swal("", "group socket error" + e.message, "error");
+		swal("", "group socket error,please reflush the web page" + e.message, "error");
 	}
 	function groupSocketClose(e) {
 		//g_sock关闭链接
-		swal("", "group socket closed" + e.message, "info");
+		swal("", "group socket close,please reflush the web page" + e.message, "info");
 	}
 
 	function feedbackSocketOpen() {
@@ -558,9 +777,9 @@
 
 				}
 				if (fd_info.groupName == state.nowGroup) {
-						//这个group是当前的group,更新下数据
-						//就是用这个fdList去刷新表格
-						paintChartsDataDivAndLedAndTime(fd_info.fdList);//
+					//这个group是当前的group,更新下数据
+					//就是用这个fdList去刷新表格
+					paintChartsDataDivAndLedAndTime(fd_info.fdList);//
 				}
 			}
 
@@ -568,10 +787,10 @@
 	}
 
 	function feedbackSocketError(e) {
-		swal("", "feedback socket error" + e.message, "error");
+		swal("", "feedback socket error,please reflush the web page or notice the admin" , "error");
 	}
 	function feedbackSocketClose(e) {
-		swal("", "feedback socket closed" + e.message, "info");
+		swal("", "feedback socket closed,please reflush the web page or notice the admin" , "info");
 
 	}
 
@@ -643,6 +862,7 @@
 	}
 	function deleteFromGroupMenu(groupName) {
 		//找到类里面key为group的，然后删除掉
+
 	}
 	function creatGroupIndist(groupInfo) {
 		//在字典中创建条目
@@ -712,23 +932,25 @@
 		selectModule(selectedGroup, 0);
 
 	}
-	function onClick_switch(thisChartsWitch){
+	function onClick_switch(thisChartsWitch) {
 		//点击开关的处理
-		thisChartsWitch.attr("checked",!thisChartsWitch.attr("checked"))
-		if(thisChartsWitch.attr("checked")){
+		thisChartsWitch.attr("checked", !thisChartsWitch.attr("checked"))
+		if (thisChartsWitch.attr("checked")) {
 			//被选中
-		thisChartsWitch.closest(".datazone").find(".dataChart").css("display","block");
-		thisChartsWitch.closest(".datazone").find(".dataShow").css("display","none");
-		}else {
-		thisChartsWitch.closest(".datazone").find(".dataChart").css("display","none");
-		thisChartsWitch.closest(".datazone").find(".dataShow").css("display","block");
+			thisChartsWitch.closest(".datazone").find(".dataChart").css(
+					"display", "block");
+			thisChartsWitch.closest(".datazone").find(".dataShow").css(
+					"display", "none");
+		} else {
+			thisChartsWitch.closest(".datazone").find(".dataChart").css(
+					"display", "none");
+			thisChartsWitch.closest(".datazone").find(".dataShow").css(
+					"display", "block");
 
 		}
 
-
-
 	}
-	function module_change_div_init(){
+	function module_change_div_init() {
 		//这个函数是在调用selectModule后，被调用
 		//用于让开关置位 数据板隐藏，表格显示
 		//原数据清除
@@ -761,7 +983,6 @@
 			moduleMenuItem.attr("name", module.name);
 			//小箭头看不到
 
-
 			//设置文本
 			moduleMenuItem.find("a").append(module.family + "|" + module.name);
 			//不同的状态，意味着不同的颜色
@@ -771,23 +992,24 @@
 				signCircle.css("color", "#1abc9c");//标准色
 
 				moduleMenuItem.find("a").append(signCircle);
-                signCircle.css("padding-left", "5px");//标准色
+				signCircle.css("padding-left", "5px");//标准色
 			} else {
 				//没有连接上，坠一个红色的小圆圈
 				var signCircle = $('<i class="icon-circle moduleConnectIcon"></i>');
 				signCircle.css("color", "#e67e22");//没有连接的颜色
 
 				moduleMenuItem.find("a").append(signCircle);
-                signCircle.css("padding-left", "5px");//标准色
+				signCircle.css("padding-left", "5px");//标准色
 			}
 			//需要设置点击事件
 
 			//放在菜单后面
 			moduleMenu.append(moduleMenuItem);
-            moduleMenuItem.find(".moduleMenuIcon").css("display", "none");
-            moduleMenuItem.find(".moduleMenuIcon").css("padding-right", "10px");
-            moduleMenuItem.find(".moduleMenuIcon").css("font-size", "12px");
-            moduleMenuItem.find(".moduleConnectIcon").css("padding-left", "5px");//左边
+			moduleMenuItem.find(".moduleMenuIcon").css("display", "none");
+			moduleMenuItem.find(".moduleMenuIcon").css("padding-right", "10px");
+			moduleMenuItem.find(".moduleMenuIcon").css("font-size", "12px");
+			moduleMenuItem.find(".moduleConnectIcon")
+					.css("padding-left", "5px");//左边
 		}
 		//需要设置点击事件,毕竟菜单刷新了
 		$(".moduleItem").bind("click", function() {
@@ -911,7 +1133,8 @@
 	function paintLedAndTimeDiv(led, timeStamp) {
 		//设置灯的颜色
 		$(".led").css("color", colorRGB2Hex(led.led_R, led.led_G, led.led_B));
-		$(".ledData").text(
+		$(".ledData")
+				.text(
 						"[R:" + led.led_R + " G:" + led.led_G + " B:"
 								+ led.led_B + "]");//设置文本
 		$(".feedbackTimeDiv").text(
@@ -963,11 +1186,11 @@
 		for (var i = 0; i < fdList.length; i++) {
 			//遍历这个list,每一个都抽取
 			var oneFd = fdList[i];
-			specModule.voltage .push(oneFd.voltage[index]);
-			specModule.current .push(oneFd.current[index]);
-			specModule.torque .push( oneFd.torque[index]);
-			specModule.position .push( oneFd.position[index]);
-			specModule.velocity .push( oneFd.velocity[index]);
+			specModule.voltage.push(oneFd.voltage[index]);
+			specModule.current.push(oneFd.current[index]);
+			specModule.torque.push(oneFd.torque[index]);
+			specModule.position.push(oneFd.position[index]);
+			specModule.velocity.push(oneFd.velocity[index]);
 			if (i == fdList.length - 1) {
 				//取led和时间戳,最新的灯和最新的时间戳
 				specModule.led_field.led_R = oneFd.led_fields[index].led_R;
@@ -1013,77 +1236,75 @@
 			positionSeries, velocitySeries) {
 		//以追加的方式设置设置表格属性
 		//直接setOpt就行
-		var pot=chartsObj.position.getOption();
-		for(var i=0;i<positionSeries.data.length;i++){
+		var pot = chartsObj.position.getOption();
+		for (var i = 0; i < positionSeries.data.length; i++) {
 			pot.series[0].data.push(positionSeries.data[i]);
 		}
-		chartsObj.position.setOption(pot,false);
+		chartsObj.position.setOption(pot, false);
 
-
-		pot=chartsObj.voltage.getOption();
-		for(var i=0;i<voltageSeries.data.length;i++){
+		pot = chartsObj.voltage.getOption();
+		for (var i = 0; i < voltageSeries.data.length; i++) {
 			pot.series[0].data.push(voltageSeries.data[i]);
 		}
-		chartsObj.voltage.setOption(pot,false);
+		chartsObj.voltage.setOption(pot, false);
 
-		pot=chartsObj.current.getOption();
-		for(var i=0;i<currentSeries.data.length;i++){
+		pot = chartsObj.current.getOption();
+		for (var i = 0; i < currentSeries.data.length; i++) {
 			pot.series[0].data.push(currentSeries.data[i]);
 		}
-		chartsObj.current.setOption(pot,false);
+		chartsObj.current.setOption(pot, false);
 
-		pot=chartsObj.torque.getOption();
-		for(var i=0;i<torqueSeries.data.length;i++){
+		pot = chartsObj.torque.getOption();
+		for (var i = 0; i < torqueSeries.data.length; i++) {
 			pot.series[0].data.push(torqueSeries.data[i]);
 		}
-		chartsObj.torque.setOption(pot,false);
+		chartsObj.torque.setOption(pot, false);
 
-		pot=chartsObj.velocity.getOption();
-		for(var i=0;i<velocitySeries.data.length;i++){
+		pot = chartsObj.velocity.getOption();
+		for (var i = 0; i < velocitySeries.data.length; i++) {
 			pot.series[0].data.push(velocitySeries.data[i]);
 		}
-		chartsObj.velocity.setOption(pot,false);
+		chartsObj.velocity.setOption(pot, false);
 
 	}
 	function reInitCharts() {
 		//初始化所有表格
-        reInitSpecChart("voltage");
-        reInitSpecChart("current");
-        reInitSpecChart("velocity");
-        reInitSpecChart("torque");
-        reInitSpecChart("position");
+		reInitSpecChart("voltage");
+		reInitSpecChart("current");
+		reInitSpecChart("velocity");
+		reInitSpecChart("torque");
+		reInitSpecChart("position");
 	}
 	function reInitSpecChart(type) {
 		//对已经init过的表格进行初始化
 		if (type == "voltage") {
-			var opt=chartsObj.voltage.getOption();
-			opt.series[0].data=[]
-			chartsObj.voltage.setOption(opt,true);
+			var opt = chartsObj.voltage.getOption();
+			opt.series[0].data = []
+			chartsObj.voltage.setOption(opt, true);
 
 		} else if (type == "current") {
-			var opt=chartsObj.current.getOption();
-			opt.series[0].data=[]
-			chartsObj.current.setOption(opt,true);
+			var opt = chartsObj.current.getOption();
+			opt.series[0].data = []
+			chartsObj.current.setOption(opt, true);
 
 		} else if (type == "velocity") {
-			var opt=chartsObj.velocity.getOption();
-			opt.series[0].data=[]
-			chartsObj.velocity.setOption(opt,true);
+			var opt = chartsObj.velocity.getOption();
+			opt.series[0].data = []
+			chartsObj.velocity.setOption(opt, true);
 
 		} else if (type == "torque") {
-			var opt=chartsObj.torque.getOption();
-			opt.series[0].data=[]
-			chartsObj.torque.setOption(opt,true);
+			var opt = chartsObj.torque.getOption();
+			opt.series[0].data = []
+			chartsObj.torque.setOption(opt, true);
 
 		} else if (type == "position") {
-			var opt=chartsObj.position.getOption();
-			opt.series[0].data=[]
-			chartsObj.position.setOption(opt,true);
+			var opt = chartsObj.position.getOption();
+			opt.series[0].data = []
+			chartsObj.position.setOption(opt, true);
 		}
 	}
 
-
-    //--------------------------
+	//--------------------------
 	function creatCharts() {
 		// 指定图表的配置项和数据
 
@@ -1097,7 +1318,7 @@
 		if (type == "voltage") {
 			opts.title.text = "voltage";
 			opts.legend.data = [ "voltage" ];
-			opts.yAxis.name = "voltage";
+			opts.yAxis.name = "V";
 			opts.series = [ {
 				name : "voltage",
 				type : 'line',
@@ -1112,7 +1333,7 @@
 		} else if (type == "current") {
 			opts.title.text = "current";
 			opts.legend.data = [ "current" ];
-			opts.yAxis.name = "current";
+			opts.yAxis.name = "A";
 			opts.series = [ {
 				name : "current",
 				type : 'line',
@@ -1127,7 +1348,7 @@
 		} else if (type == "velocity") {
 			opts.title.text = "velocity";
 			opts.legend.data = [ "velocity" ];
-			opts.yAxis.name = "velocity";
+			opts.yAxis.name = "rad/s";
 			opts.series = [ {
 				name : "velocity",
 				type : 'line',

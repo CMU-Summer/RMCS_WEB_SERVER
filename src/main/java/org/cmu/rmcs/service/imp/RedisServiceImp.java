@@ -99,7 +99,7 @@ public class RedisServiceImp implements RedisService{
         List<String> fSet= redisDao.getSet(ContantUtil.FAMILY_SET_KEY);
         Map<String, ArrayList<String>> fandItnames=new HashMap<String, ArrayList<String>>();
         for(String fname:fSet){
-            ArrayList<String> names= (ArrayList<String>) redisDao.getList(fname, 0, -1);
+            ArrayList<String> names= (ArrayList<String>) redisDao.getSet(fname);
             if(names.size()>0){
                 fandItnames.put(fname, names);//只要长度不为零就加进去
                 

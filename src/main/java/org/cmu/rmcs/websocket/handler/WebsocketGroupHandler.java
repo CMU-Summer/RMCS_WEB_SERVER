@@ -79,7 +79,8 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
                 
             }
             WS_group_sock_cmd ws_group_sock_cmd = new WS_group_sock_cmd();
-            List<GroupStruct> cacheList = groupNumsTaskWork(ws_group_sock_cmd);// group的数目
+             groupNumsTaskWork(ws_group_sock_cmd);// group的数目
+             List<GroupStruct> cacheList =this.redisServiceImp.getGroupStrInCache();
             groupStateTaskWork(ws_group_sock_cmd, cacheList);// group的状态
             // 现在cmd已经打包完成，就是发送出去了
            

@@ -107,9 +107,9 @@ public class MainController {
             RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public JSONObject addGroup(
-            @RequestBody 
-            GroupStruct g,
-            HttpServletRequest req
+            @RequestBody
+            GroupStruct g
+          
             
       ){
         
@@ -122,6 +122,7 @@ public class MainController {
              
          }else {
              //没有
+           g.setName(g.getName()+ContantUtil.POSTFIX_GROUP_KEY);
            boolean issucceed=  redisServiceImp.addGroupToCache(g);
            if(issucceed)commonRes.setDes("add group successfully! please wait for group menu reflush!");  
            else   commonRes.setDes("add group failed!");  
