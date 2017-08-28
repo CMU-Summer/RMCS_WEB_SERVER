@@ -98,6 +98,7 @@ public class MainController {
             HttpServletResponse res){
         //清理session
         req.getSession().removeAttribute("user");
+        
         return "login";
 
     }
