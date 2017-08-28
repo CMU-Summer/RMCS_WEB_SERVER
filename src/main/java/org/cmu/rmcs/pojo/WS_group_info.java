@@ -42,13 +42,15 @@ public class WS_group_info implements Serializable {
     public void parseGroupStruct(GroupStruct gStruct){
         this.groupName=gStruct.getName();
         for(FamilyStruct fStruct:gStruct.getFamilyList()){
-             WS_group_module_inf ws_m_inf =new WS_group_module_inf();
-             ws_m_inf.setFamily(fStruct.getName());
+             String familyName=fStruct.getName();
              for(NameStruct nameStruct:fStruct.getNameList()){
+                 WS_group_module_inf ws_m_inf =new WS_group_module_inf();
+                 ws_m_inf.setFamily(familyName);
                  ws_m_inf.setName(nameStruct.getName());
                  ws_m_inf.setConnected(nameStruct.getConnected() == 1?true:false);
+                 this.modules.add(ws_m_inf);//加进去
              }
-            this.modules.add(ws_m_inf);//加进去
+           
         }
         
         
