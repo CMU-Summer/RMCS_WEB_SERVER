@@ -28,6 +28,7 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     private static ThreadLocal<Map<String, Long>> groupIndexMapLocal = new ThreadLocal<>();
     private static ThreadLocal<Map<String, Long>> groupLenthMap = new ThreadLocal<>();
     private static ThreadLocal<Map<String, Boolean>> groupNeedGetMap = new ThreadLocal<>();
+    private static final ThreadLocal<WebSocketSession> sessionLocal = new ThreadLocal<>();
     private static Logger logger = LoggerFactory
             .getLogger(WebSocketFeedbackHandler.class);
     @Resource
@@ -44,6 +45,11 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session)
             throws Exception {
+        if(sessionLocal.get() == null){
+            sessionLocal.set(session);
+            
+            
+        }
         if (groupIndexMapLocal.get() == null)
             groupIndexMapLocal.set(new HashMap<String, Long>());
         if(groupLenthMap.get()==null){
@@ -55,8 +61,10 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
             
         }
         while (true) {
-            if(session.isOpen()==false){
-             
+            
+            System.out.println("session.isOpen():"+sessionLocal.get().isOpen());
+            if(sessionLocal.get().isOpen()==false){
+                
                 System.out.println("feedback  sock is closed");
                 return;
                  
@@ -101,7 +109,7 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
         if (session.isOpen()) {
             session.close();
         }
-        logger.debug("websocket chat connection closed......");
+        logger.debug("websocket fd connection closed......");
 
     }
 
@@ -109,7 +117,7 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session,
             CloseStatus closeStatus) throws Exception {
-        logger.debug("websocket chat connection closed......");
+        logger.debug("websocket fd connection closed......");
 
     }
 

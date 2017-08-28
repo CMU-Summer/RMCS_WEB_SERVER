@@ -148,7 +148,7 @@
 									<div class="sidebar-nav">
 										<div class="navbar navbar-default" role="navigation">
 											<div class="navbar-collapse collapse sidebar-navbar-collapse">
-												<ul class="nav navbar-nav">
+												<ul class="nav navbar-nav" style="text-align: left;">
 													<li class="active"><a href="#">Modules</a></li>
 												</ul>
 											</div>
@@ -157,7 +157,7 @@
 									</div>
 								</div>
 								<div class="row pbl">
-									<div class="sidebar-nav" style="text-align: right;">
+									<div class="sidebar-nav" style="text-align: left;">
 										<div class="navbar navbar-default" role="navigation">
 											<div class="navbar-collapse collapse sidebar-navbar-collapse">
 												<ul class="nav navbar-nav moduleMenu">
@@ -316,11 +316,13 @@
 						aria-hidden="true">RMCS</button>
 					<h4 class="modal-title" id="myModalLabel">Add Group</h4>
 				</div>
+				<div class="desNote"> 1.chose the moudles the group has!</div>
 				<div class="modal-body familyMap" id="familyMap">
 					<!--将会在这里出现个树的结构-->
 				</div>
+				<div class="desNote"> 2.input the group name ,it can't contain '_' or any space!,then you can submit</div>
 				<div class="inputDiv">
-						<input type="text" class="form-control input-sm gnameInput" placeholder="input groupName" />
+						<input type="text" class="form-control gnameInput" placeholder="input groupName" />
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default addGroupCancelButton" data-dismiss="modal">close
@@ -482,7 +484,7 @@
 		}, ],
 	};
 	window.onbeforeunload = function checkLeave(e) {
-		var evt = e ? e : (window.event ? window.event : null); //此方法为了在firefox中的兼容
+	
 		if (websokcets.g_sock != null && websokcets.g_sock != undefined)
 			websokcets.g_sock.close();
 		if (websokcets.fd_sock != null && websokcets.fd_sock != undefined)
@@ -543,11 +545,13 @@
 						swal({
 								title: "Sorry",
 								text: "you can't add group,please notice the admin!",
+								showCancelButton: false,
 								type: "error",
 								confirmButtonText: "ok",
-							},
+								closeOnConfirm: false,
+							}).then(
 							function(){
-								//1.关闭modal,2 销毁familyMap树
+							//1.关闭modal,2 销毁familyMap树
 								closeGroupAddingModal();
 							});
 				}
@@ -992,24 +996,24 @@
 				signCircle.css("color", "#1abc9c");//标准色
 
 				moduleMenuItem.find("a").append(signCircle);
-				signCircle.css("padding-left", "5px");//标准色
+				signCircle.css("padding-left", "2px");//标准色
 			} else {
 				//没有连接上，坠一个红色的小圆圈
 				var signCircle = $('<i class="icon-circle moduleConnectIcon"></i>');
 				signCircle.css("color", "#e67e22");//没有连接的颜色
 
 				moduleMenuItem.find("a").append(signCircle);
-				signCircle.css("padding-left", "5px");//标准色
+				signCircle.css("padding-left", "2px");//标准色
 			}
 			//需要设置点击事件
 
 			//放在菜单后面
 			moduleMenu.append(moduleMenuItem);
 			moduleMenuItem.find(".moduleMenuIcon").css("display", "none");
-			moduleMenuItem.find(".moduleMenuIcon").css("padding-right", "10px");
+			moduleMenuItem.find(".moduleMenuIcon").css("padding-right", "5px");
 			moduleMenuItem.find(".moduleMenuIcon").css("font-size", "12px");
 			moduleMenuItem.find(".moduleConnectIcon")
-					.css("padding-left", "5px");//左边
+					.css("padding-left", "2px");//左边
 		}
 		//需要设置点击事件,毕竟菜单刷新了
 		$(".moduleItem").bind("click", function() {

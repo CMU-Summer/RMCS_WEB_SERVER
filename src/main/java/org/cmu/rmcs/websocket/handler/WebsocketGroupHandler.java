@@ -73,7 +73,8 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
             groupNameSet.set(new HashSet<String>());
         // 以循环的方式去处理
         while (true) {
-            if(session.isOpen()==false){
+            System.out.println("session.isOpen():"+sessionLocal.get().isOpen());
+            if(sessionLocal.get().isOpen()==false){
                 System.out.println("group sock is closed");
                 return;
                 
@@ -123,7 +124,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
         if (session.isOpen()) {
             session.close();
         }
-        logger.debug("websocket chat connection closed......");
+        logger.debug("websocket gp connection closed......");
 
     }
 
@@ -131,7 +132,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session,
             CloseStatus closeStatus) throws Exception {
-        logger.debug("websocket chat connection closed......");
+        logger.debug("websocket gp connection closed......");
 
     }
 
