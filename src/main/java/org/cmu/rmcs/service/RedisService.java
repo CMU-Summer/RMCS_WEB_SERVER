@@ -41,4 +41,6 @@ public interface RedisService {
     //9 获得list或set的长度
     public long getSetOrListSize(String setOrListKey,int type);
     
+    //10 删除groupfeedbacklist的前n条
+    public boolean clearGroupFeeback(String groupName,long untilNum);
 }

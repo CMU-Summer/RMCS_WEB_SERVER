@@ -90,7 +90,7 @@ public class RedisDao {
      
         try {
             SetOperations<String, String> sOpt= redisTemplate.opsForSet();
-            boolean a=redisTemplate.hasKey(setKey);
+        
             Set<String> sets= sOpt.members(setKey);
             ArrayList<String> resArrayList = new ArrayList<String>();
             resArrayList.addAll(sets);
@@ -124,10 +124,11 @@ public class RedisDao {
     }
 
     // 删除列表元素,
-    public boolean deletListElementUntil(final String listkey,final int end) {
+    public boolean deletListElementUntil(final String listkey,final long untilNum) {
         try {
             BoundListOperations<String, String> bopts= redisTemplate.boundListOps(listkey);
-            bopts.trim(end , -1);
+            
+            bopts.trim(untilNum , -1);
                 
         
             return true;

@@ -154,4 +154,12 @@ public class RedisServiceImp implements RedisService{
         }
     }
 
+    @Override
+    public boolean clearGroupFeeback(String groupName, long untilNum) {
+        // TODO Auto-generated method stub
+        return redisDao.deletListElementUntil(groupName+ContantUtil.POSTFIX_GROUP_FEEDBACK_KEY, untilNum);
+        
+       
+    }
+
 }
