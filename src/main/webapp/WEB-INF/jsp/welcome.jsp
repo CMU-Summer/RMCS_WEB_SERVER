@@ -45,7 +45,7 @@
 
 				<a class="navbar-brand" href="#"><span class="fui-video"
 					style="padding-right: 23px; font-size: 25px; color: #afffff;"></span>Robotics
-					Monitor And Control System</a>
+					Monitor and Control System</a>
 			</div>
 			<div class="navbar-collapse collapse">
 
@@ -74,7 +74,7 @@
 						<div class="navbar navbar-default" role="navigation">
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
 								<ul class="nav navbar-nav">
-									<li class="active"><a href="#">Groups</a></li>
+									<li class="active"><a href="#">Group</a></li>
 								</ul>
 							</div>
 							<!--/.nav-collapse -->
@@ -149,7 +149,7 @@
 										<div class="navbar navbar-default" role="navigation">
 											<div class="navbar-collapse collapse sidebar-navbar-collapse">
 												<ul class="nav navbar-nav" style="text-align: left;">
-													<li class="active"><a href="#">Modules</a></li>
+													<li class="active"><a href="#">Module</a></li>
 												</ul>
 											</div>
 											<!--/.nav-collapse -->
@@ -180,14 +180,14 @@
 								<div class="row pbl"
 									style="text-align: left;; padding-bottom: 40px;">
 									<!-- 显示小圆点，然后显示RGB的值  -->
-									<div class="col-md-5">
+									<div class="col-md-6">
 										<div>
 											<span style="color: #e74c3c" class="fa fa-circle led"></span><strong
 												class="ledData">[R:243,G:0:B:0]</strong>
 										</div>
 									</div>
 									<!-- 显示最新一次的更新时间  -->
-									<div class="col-md-5">
+									<div class="col-md-6">
 										<div class="feedbackTimeDiv">
 											LastFeedBack: <strong>2017-08-23 23:59:59</strong>
 										</div>
@@ -196,14 +196,14 @@
 								<div class="row pbl">
 									<!-- 显示两个图表，各占一半 -->
 									<!-- 电压 电流 -->
-									<div class="col-md-5 datazone">
+									<div class="col-md-6 datazone">
 										<!-- 表明是电压表 -->
 										<div class="row pbl"> 
-											<div class="col-md-5">
+											<div class="col-md-6">
 												<label class="checkbox" for="voltage-switch"> <input
 													type="checkbox" class="voltage-switch chartsWitch"
 													data-toggle="checkbox" value="" id="voltage-switch">
-													voltage
+													Voltage
 												</label>
 											</div>
 										</div>
@@ -212,15 +212,15 @@
 											<div class="dataShow voltageDataShow" style="display: none"></div>
 										</div>
 									</div>
-									<div class="col-md-5 datazone">
+									<div class="col-md-6 datazone">
 										<!-- 表明是电流表 -->
 										<!-- 开关 -->
 										<div class="row pbl">
-											<div class="col-md-5">
+											<div class="col-md-6">
 												<label class="checkbox" for="current-switch"> <input
 													type="checkbox" class="current-switch chartsWitch"
 													data-toggle="checkbox" value="" id="current-switch">
-													current
+													Current
 												</label>
 											</div>
 										</div>
@@ -233,16 +233,16 @@
 								</div>
 								<div class="row pbl">
 									<!-- 速度 扭矩 -->
-									<div class="col-md-5 datazone">
+									<div class="col-md-6 datazone">
 										<!-- 表明是速度表 -->
 										<!-- 开关 -->
 
 										<div class="row pbl">
-											<div class="col-md-5">
+											<div class="col-md-6">
 												<label class="checkbox" for="velocity-switch"> <input
 													type="checkbox" class="velocity-switch chartsWitch"
 													data-toggle="checkbox" value="" id="velocity-switch">
-													velocity
+													Velocity
 												</label>
 											</div>
 										</div>
@@ -252,16 +252,16 @@
 										</div>
 
 									</div>
-									<div class="col-md-5 datazone">
+									<div class="col-md-6 datazone">
 										<!-- 表明是扭矩表 -->
 										<!-- 开关 -->
 										<div class="row pbl">
-											<div class="col-md-5">
+											<div class="col-md-6">
 
 												<label class="checkbox" for="torque-switch"> <input
 													type="checkbox" class="torque-switch chartsWitch"
 													data-toggle="checkbox" value="" id="torque-switch">
-													torque
+													Torque
 												</label>
 											</div>
 										</div>
@@ -277,16 +277,16 @@
 								<div class="row pbl">
 									<!-- 只有一个图表在这里，不过为了整齐 -->
 									<!-- 位置 -->
-									<div class="col-md-5 datazone">
+									<div class="col-md-6 datazone">
 										<!-- 表明是位置表 -->
 										<!-- 开关 -->
 										<div class="row pbl">
-											<div class="col-md-5">
+											<div class="col-md-6">
 
 												<label class="checkbox" for="position-switch"> <input
 													type="checkbox" class="position-switch chartsWitch"
 													data-toggle="checkbox" value="" id="position-switch">
-													position
+													Position
 												</label>
 											</div>
 										</div>
@@ -295,7 +295,7 @@
 											<div class="dataShow positionDataShow" style="display: none"></div>
 										</div>
 									</div>
-									<div class="col-md-5 datazone"></div>
+									<div class="col-md-6 datazone"></div>
 								</div>
 							</div>
 
@@ -377,7 +377,10 @@
 		yAxis : {
 			name : "value",
 		},
-		dataZoom : [ {} ],
+		dataZoom : [ {
+			start:95,
+			end:100
+		} ],
 		series : [ {
 			name : 'value',
 			type : 'line',
@@ -476,11 +479,11 @@
 				timeStamp : 124153647474,
 				value : 4.6
 			} ],
-			led_field : {
+			led_fields : [{
 				led_R : 145,
 				led_G : 0,
 				led_B : 0
-			}
+			}]
 		}, ],
 	};
 	window.onbeforeunload = function checkLeave(e) {
@@ -1132,7 +1135,7 @@
 		var second = date.getSeconds();
 		minute = minute < 10 ? ('0' + minute) : minute;
 		second = second < 10 ? ('0' + second) : second;
-		return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+		return d + '/' + m + '/' + y + ' ' + h + ':' + minute + ':' + second;
 	};
 	function paintLedAndTimeDiv(led, timeStamp) {
 		//设置灯的颜色
@@ -1142,7 +1145,7 @@
 						"[R:" + led.led_R + " G:" + led.led_G + " B:"
 								+ led.led_B + "]");//设置文本
 		$(".feedbackTimeDiv").text(
-				"LastFeedBackArrived:" + toLocalFormTime(timeStamp));//设置时间文本
+				"UpdateOn: " + toLocalFormTime(timeStamp));//设置时间文本
 
 	}
 	function paintDataDiv(voltageSeries, currentSeries, torqueSeries,
@@ -1320,7 +1323,7 @@
 	}
 	function creatSpecChart(type) {
 		if (type == "voltage") {
-			opts.title.text = "voltage";
+			opts.title.text = "Voltage";
 			opts.legend.data = [ "voltage" ];
 			opts.yAxis.name = "V";
 			opts.series = [ {
@@ -1335,7 +1338,7 @@
 			chartsObj.voltage.setOption(opts);
 
 		} else if (type == "current") {
-			opts.title.text = "current";
+			opts.title.text = "Current";
 			opts.legend.data = [ "current" ];
 			opts.yAxis.name = "A";
 			opts.series = [ {
@@ -1350,7 +1353,7 @@
 			chartsObj.current.setOption(opts);
 
 		} else if (type == "velocity") {
-			opts.title.text = "velocity";
+			opts.title.text = "Velocity";
 			opts.legend.data = [ "velocity" ];
 			opts.yAxis.name = "rad/s";
 			opts.series = [ {
@@ -1365,7 +1368,7 @@
 			chartsObj.velocity.setOption(opts);
 
 		} else if (type == "torque") {
-			opts.title.text = "torque";
+			opts.title.text = "Torque";
 			opts.legend.data = [ "torque" ];
 			opts.yAxis.name = "torque";
 			opts.series = [ {
@@ -1380,7 +1383,7 @@
 			chartsObj.torque.setOption(opts);
 
 		} else if (type == "position") {
-			opts.title.text = "position";
+			opts.title.text = "Position";
 			opts.legend.data = [ "position" ];
 			opts.yAxis.name = "position";
 			opts.series = [ {

@@ -82,8 +82,8 @@ public class WS_feedback_group implements Serializable {
                 velocityList.add(velocity);
                 Led_field led_field=new Led_field();
                 led_field.setLed_B(fd.getLed_field().getLed_B());
-                led_field.setLed_R(fd.getLed_field().getLed_B());
-                led_field.setLed_G(fd.getLed_field().getLed_B());
+                led_field.setLed_R(fd.getLed_field().getLed_R());
+                led_field.setLed_G(fd.getLed_field().getLed_G());
                 led_fields.add(led_field);
             }
       
