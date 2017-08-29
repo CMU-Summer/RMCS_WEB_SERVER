@@ -1135,17 +1135,17 @@
 		var second = date.getSeconds();
 		minute = minute < 10 ? ('0' + minute) : minute;
 		second = second < 10 ? ('0' + second) : second;
-		return d + '/' + m + '/' + y + ' ' + h + ':' + minute + ':' + second;
+		return m + '/' + d + '/' + y + ' $nbsp;' + h + ':' + minute + ':' + second;
 	};
 	function paintLedAndTimeDiv(led, timeStamp) {
 		//设置灯的颜色
 		$(".led").css("color", colorRGB2Hex(led.led_R, led.led_G, led.led_B));
 		$(".ledData")
 				.text(
-						"[R:" + led.led_R + " G:" + led.led_G + " B:"
+						"[R:" + led.led_R + " $nbsp;G: " + led.led_G + " $nbsp;B:"
 								+ led.led_B + "]");//设置文本
 		$(".feedbackTimeDiv").text(
-				"UpdateOn: " + toLocalFormTime(timeStamp));//设置时间文本
+				"UpdateOn: $nbsp;$nbsp;" + toLocalFormTime(timeStamp));//设置时间文本
 
 	}
 	function paintDataDiv(voltageSeries, currentSeries, torqueSeries,
@@ -1153,23 +1153,23 @@
 		//根据传进来的电压 电流 速度 扭矩 位置 更新div上的内容
 		if (voltageSeries.data.length > 0) {
 			var value = voltageSeries.data[voltageSeries.data.length - 1][1];//1是值
-			$(".voltageDataShow").text("Voltage: " + value);
+			$(".voltageDataShow").text(value+" V");
 		}
 		if (currentSeries.data.length > 0) {
 			var value = currentSeries.data[currentSeries.data.length - 1][1];//1是值
-			$(".currentDataShow").text("Current: " + value);
+			$(".currentDataShow").text(value+" A");
 		}
 		if (torqueSeries.data.length > 0) {
 			var value = torqueSeries.data[torqueSeries.data.length - 1][1];//1是值
-			$(".torqueDataShow").text("Torque: " + value);
+			$(".torqueDataShow").text(value);
 		}
 		if (positionSeries.data.length > 0) {
 			var value = positionSeries.data[positionSeries.data.length - 1][1];//1是值
-			$(".positionDataShow").text("Position: " + value);
+			$(".positionDataShow").text(value);
 		}
 		if (velocitySeries.data.length > 0) {
 			var value = velocitySeries.data[velocitySeries.data.length - 1][1];//1是值
-			$(".velocityDataShow").text("Velocity: " + value);
+			$(".velocityDataShow").text(value);
 		}
 
 	}

@@ -1,5 +1,5 @@
 .dataChart{
-    width: 100%;
+    width: 429px;
     height: 250px;
 
 
@@ -20,7 +20,7 @@
 }
 .dataShow{
     text-align: center;
-    font-size: 25px;
+    font-size: 14px;
     font-weight: bold;
 }
 .moduleConnectIcon{
