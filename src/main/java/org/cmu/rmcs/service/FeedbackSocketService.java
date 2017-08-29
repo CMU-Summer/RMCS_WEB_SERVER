@@ -23,11 +23,11 @@ import org.springframework.web.socket.WebSocketSession;
 import com.alibaba.fastjson.JSONObject;
 @Service
 public class FeedbackSocketService implements Runnable{
-    private static Map<String, Long> groupIndexMapLocal = new HashMap<String, Long> ();
-    private static Map<String, Long>groupLenthMap = new HashMap<String, Long>();
-    private static Map<String, Boolean> groupNeedGetMap = new HashMap<String, Boolean>();
-    private static WebSocketSession sessionLocal = null;
-    private static Logger logger = LoggerFactory
+    private  Map<String, Long> groupIndexMapLocal = new HashMap<String, Long> ();
+    private  Map<String, Long>groupLenthMap = new HashMap<String, Long>();
+    private  Map<String, Boolean> groupNeedGetMap = new HashMap<String, Boolean>();
+    private  WebSocketSession sessionLocal = null;
+    private  Logger logger = LoggerFactory
             .getLogger(FeedbackSocketService.class);
     @Resource
     private RedisService redisServiceImp;
@@ -51,7 +51,7 @@ public class FeedbackSocketService implements Runnable{
         // TODO Auto-generated method stub
       while (true) {
       
-          System.out.println("session's id:"+sessionLocal.getId()+" session.isOpen():"+sessionLocal.isOpen());
+          System.out.println("fd session's id:"+sessionLocal.getId()+" session.isOpen():"+sessionLocal.isOpen());
       if(sessionLocal.isOpen()==false){
           
           System.out.println("feedback  sock is closed");
