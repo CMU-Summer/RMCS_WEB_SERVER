@@ -13,6 +13,8 @@ import javax.annotation.Resource;
 import org.cmu.rmcs.pojo.GroupfeedbackCustomStruct;
 import org.cmu.rmcs.pojo.WS_fd_cmd;
 import org.cmu.rmcs.pojo.WS_feedback_group;
+import org.cmu.rmcs.service.FeedbackSocketService;
+import org.cmu.rmcs.service.GroupSocketService;
 import org.cmu.rmcs.service.RedisService;
 import org.cmu.rmcs.util.ContantUtil;
 import org.slf4j.Logger;
@@ -29,11 +31,14 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     private static ThreadLocal<Map<String, Long>> groupLenthMap = new ThreadLocal<>();
     private static ThreadLocal<Map<String, Boolean>> groupNeedGetMap = new ThreadLocal<>();
     private static final ThreadLocal<WebSocketSession> sessionLocal = new ThreadLocal<>();
+    private static final Map<String, Thread> sessionThreadMap=new HashMap<>();
     private static Logger logger = LoggerFactory
             .getLogger(WebSocketFeedbackHandler.class);
     @Resource
     private RedisService redisServiceImp;
-
+    @Resource
+    private FeedbackSocketService fedFeedbackSocketService;
+    
     @Override
     protected void handleTextMessage(WebSocketSession session,
             TextMessage message) throws Exception {
@@ -45,59 +50,18 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session)
             throws Exception {
-        if(sessionLocal.get() == null){
-            sessionLocal.set(session);
-            
-            
-        }
-        if (groupIndexMapLocal.get() == null)
-            groupIndexMapLocal.set(new HashMap<String, Long>());
-        if(groupLenthMap.get()==null){
-            groupLenthMap.set(new HashMap<String, Long>());
-            
-        }
-        if(groupNeedGetMap.get() == null){
-            groupNeedGetMap.set(new HashMap<String,Boolean>());
-            
-        }
-        while (true) {
-            
-            System.out.println("session.isOpen():"+sessionLocal.get().isOpen());
-            if(sessionLocal.get().isOpen()==false){
-                
-                System.out.println("feedback  sock is closed");
-                return;
-                 
-            }
-            Set<String> groupList = redisServiceImp.getGroupNamesFromCache();
-            // 分析/更新索引值
-            analysisAndUpdateIndexMap(groupList);
-            // 取每个group的最新fd
-            Map<String, List<GroupfeedbackCustomStruct>> newFdListMap = getNewsetFeedbackListForEachGroup();
-            // 转换格式
-            List<WS_feedback_group> wsList = changeGroupFdStructToWsFdStruct(newFdListMap);
-            if (wsList.size() > 0) {
-                // 有最新的groupfeedback,进行打包，然后转换成字符串
-                String cmdStr = packageWSfeedbackCmdAndToString(wsList);
-                try {
-                    TextMessage tx = new TextMessage(cmdStr);
-                    // 发送
-                    session.sendMessage(tx);
-                } catch (Exception e) {
-                    // TODO: handle exception
-                    logger.error("fd cmd send error:" + e.getMessage());
-                    e.printStackTrace();
-                }
-
-            }
-
-            try {
-                Thread.sleep(ContantUtil.THREAD_SLEEP_TIME);
-            } catch (Exception e) {
-                // TODO: handle exception
-                logger.error("thread sleep error:" + e.getMessage());
-            }
-            System.out.println("next fd... ");
+        System.out.println("connect to the  fd websocket success......");
+        FeedbackSocketService gService=fedFeedbackSocketService;
+        gService.setSession(session);
+        Thread thread=new Thread(gService);
+        try {
+            thread.start();
+            sessionThreadMap.put(session.getId(), thread);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            logger.debug("can not create fd thread!!");
+            session.close();
         }
 
     }
@@ -117,6 +81,17 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session,
             CloseStatus closeStatus) throws Exception {
+        if(sessionThreadMap.containsKey(session.getId())){
+            try {
+                sessionThreadMap.get(session.getId()).interrupt();
+            } catch (Exception e) {
+                // TODO: handle exception
+                e.printStackTrace();
+                logger.debug("fd socket can stop the thread"+e.getMessage());
+            }
+          
+            sessionThreadMap.remove(session.getId());
+        }
         logger.debug("websocket fd connection closed......");
 
     }

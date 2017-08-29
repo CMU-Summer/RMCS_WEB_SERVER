@@ -1140,6 +1140,7 @@
 	function paintLedAndTimeDiv(led, timeStamp) {
 		//设置灯的颜色
 		$(".led").css("color", colorRGB2Hex(led.led_R, led.led_G, led.led_B));
+		
 		$(".ledData")
 				.text(
 						"[R:" + led.led_R + "   G: " + led.led_G + "   B:"
