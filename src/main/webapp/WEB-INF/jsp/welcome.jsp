@@ -142,9 +142,9 @@
 						<!--第一行是两列，2 10-->
 						<div class="row pbl ">
 							<!--2这里面需要放一个展示groupName和Moudle的块-->
-							<div class="col-md-2">
+							<div class="col-md-3">
 								<!--展示group信息的-->
-								<div class="row pbl" style="margin-bottom: -25%;">
+								<div class="row pbl" style="margin-bottom: -15%;">
 									<div class="sidebar-nav">
 										<div class="navbar navbar-default" role="navigation">
 											<div class="navbar-collapse collapse sidebar-navbar-collapse">
@@ -174,7 +174,7 @@
 								</div>
 							</div>
 							<!--这个用来展示,表的，一大堆表的-->
-							<div class="col-md-10">
+							<div class="col-md-9">
 								<!--一共四行-->
 								<!--第一行第一列显示小圆点表示灯，第二列显示最近一次的更新时间-->
 								<div class="row pbl"
