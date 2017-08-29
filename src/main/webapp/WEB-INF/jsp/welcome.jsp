@@ -1135,17 +1135,17 @@
 		var second = date.getSeconds();
 		minute = minute < 10 ? ('0' + minute) : minute;
 		second = second < 10 ? ('0' + second) : second;
-		return m + '/' + d + '/' + y + ' $nbsp;' + h + ':' + minute + ':' + second;
+		return m + '/' + d + '/' + y + ' &nbsp;' + h + ':' + minute + ':' + second;
 	};
 	function paintLedAndTimeDiv(led, timeStamp) {
 		//设置灯的颜色
 		$(".led").css("color", colorRGB2Hex(led.led_R, led.led_G, led.led_B));
 		$(".ledData")
 				.text(
-						"[R:" + led.led_R + " $nbsp;G: " + led.led_G + " $nbsp;B:"
+						"[R:" + led.led_R + " &nbsp;G: " + led.led_G + " &nbsp;B:"
 								+ led.led_B + "]");//设置文本
 		$(".feedbackTimeDiv").text(
-				"UpdateOn: $nbsp;$nbsp;" + toLocalFormTime(timeStamp));//设置时间文本
+				"UpdateOn: &nbsp;&nbsp;" + toLocalFormTime(timeStamp));//设置时间文本
 
 	}
 	function paintDataDiv(voltageSeries, currentSeries, torqueSeries,
