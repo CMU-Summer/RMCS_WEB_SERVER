@@ -377,7 +377,10 @@
 		yAxis : {
 			name : "value",
 		},
-		dataZoom : [ {} ],
+		dataZoom : [ {
+			start:95,
+			end:100
+		} ],
 		series : [ {
 			name : 'value',
 			type : 'line',
