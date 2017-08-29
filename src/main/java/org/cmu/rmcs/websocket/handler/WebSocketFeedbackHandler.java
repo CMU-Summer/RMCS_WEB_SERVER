@@ -50,8 +50,11 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session)
             throws Exception {
+        System.out.println("session's id:"+ session.getId());
+        System.out.println("session is open:"+ session.isOpen());
         System.out.println("connect to the  fd websocket success......");
-        FeedbackSocketService gService=fedFeedbackSocketService;
+        FeedbackSocketService gService=new FeedbackSocketService();
+        gService.setRedisService(redisServiceImp);
         gService.setSession(session);
         Thread thread=new Thread(gService);
         try {
@@ -81,6 +84,7 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session,
             CloseStatus closeStatus) throws Exception {
+       
         if(sessionThreadMap.containsKey(session.getId())){
             try {
                 sessionThreadMap.get(session.getId()).interrupt();

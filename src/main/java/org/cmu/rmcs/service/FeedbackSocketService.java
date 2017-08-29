@@ -51,7 +51,7 @@ public class FeedbackSocketService implements Runnable{
         // TODO Auto-generated method stub
       while (true) {
       
-      System.out.println("session.isOpen():"+sessionLocal.isOpen());
+          System.out.println("session's id:"+sessionLocal.getId()+" session.isOpen():"+sessionLocal.isOpen());
       if(sessionLocal.isOpen()==false){
           
           System.out.println("feedback  sock is closed");

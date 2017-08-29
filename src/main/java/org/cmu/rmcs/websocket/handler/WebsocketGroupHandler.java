@@ -35,7 +35,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
             .getLogger(WebSocketFeedbackHandler.class);
     private static final Map<String, Thread> sessionThreadMap=new HashMap<>();
     @Resource
-    private RedisService redisServiceImp;
+    private RedisService redisServiceImp; 
     @Resource
     private GroupSocketService groupSocketService;
     
@@ -61,8 +61,12 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session)
             throws Exception {
+        System.out.println("session's id:"+ session.getId());
         System.out.println("connect to the  group websocket success......");
-        GroupSocketService gService=groupSocketService;
+        System.out.println("session is open:"+ session.isOpen());
+        GroupSocketService gService=new GroupSocketService();
+        gService.setRedisService(redisServiceImp);
+        
         gService.setSession(session);
         Thread thread=new Thread(gService);
         try {
@@ -95,6 +99,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session,
             CloseStatus closeStatus) throws Exception {
+ 
         if(sessionThreadMap.containsKey(session.getId())){
             try {
                 sessionThreadMap.get(session.getId()).interrupt();

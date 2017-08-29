@@ -55,7 +55,7 @@ public class GroupSocketService implements Runnable{
         // 以循环的方式去处理
       while (true) {
       
-          System.out.println("session.isOpen():"+sessionLocal.isOpen());
+          System.out.println("session's id:"+sessionLocal.getId()+" session.isOpen():"+sessionLocal.isOpen());
           if(sessionLocal.isOpen()==false){
               System.out.println("group sock is closed");
               return;
