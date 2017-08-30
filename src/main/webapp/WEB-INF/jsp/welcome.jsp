@@ -131,8 +131,7 @@
 							<img src="img/icons/svg/retina.svg" alt="Retina"
 								style="margin-left: 45%;">
 						</div>
-						<h1 class="text-info">Welcome to use RCMS,please chose one
-							group to monitor!</h1>
+						<h1 class="text-info">Start module tracking and better control your robotics!</h1>
 					</div>
 				</div>
 				<div id="groupShowDiv" class="jumbotron"
@@ -624,6 +623,8 @@
 					}else {
 
 					 	swal("Ok!",data.des,"success");
+						//关闭模态框触发，
+						$('#addGroupModal').modal('hide');
 					}
 				},
 				error:function(e){
