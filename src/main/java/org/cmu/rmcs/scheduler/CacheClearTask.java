@@ -24,16 +24,15 @@ public class CacheClearTask {
     
     @Scheduled(cron = "0 0/30 * * * ?")
     public void clearCache(){
-         //每小时触发一次:任意时刻的0 分 0 秒
+         //每半小时触发一次
        System.out.println("scheduler task working!");
        LOGGER.debug("scheduler task working!");
        Set<String> groupNames= redisServiceImp.getGroupNamesFromCache();
+       //遍历每一个group
            for(String s : groupNames){
-               long len=redisServiceImp.getSetOrListSize(s+ContantUtil.POSTFIX_GROUP_FEEDBACK_KEY, ContantUtil.LEN_TYPE_LIST);//列表的长度
-               if(len>ContantUtil.MAX_FEEDBACK_LENTH){
-                   //超过最大条数
-                  boolean opt= redisServiceImp.clearGroupFeeback(s, ContantUtil.MAX_FEEDBACK_LENTH);//保留最大的
-                  if(!opt)LOGGER.error("feedback clear failed!");
+              //直接删掉
+               if(redisServiceImp.deleteGroupFeedback(s)==false){
+                   LOGGER.debug("delete group fd error");
                }
            }
     }

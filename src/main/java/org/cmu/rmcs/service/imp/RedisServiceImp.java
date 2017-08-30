@@ -162,4 +162,13 @@ public class RedisServiceImp implements RedisService{
        
     }
 
+    @Override
+    public boolean deleteGroupFeedback(String groupNmae) {
+        // TODO Auto-generated method stub
+       long keys=redisDao.deletKey(groupNmae+ContantUtil.POSTFIX_GROUP_FEEDBACK_KEY);
+        
+        
+        return keys>=1?true:false;
+    }
+
 }

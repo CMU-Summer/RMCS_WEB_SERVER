@@ -43,4 +43,8 @@ public interface RedisService {
     
     //10 删除groupfeedbacklist的前n条
     public boolean clearGroupFeeback(String groupName,long untilNum);
+    
+    //11 删除group的feedback
+    public boolean deleteGroupFeedback(String groupNmae);
+    
 }

@@ -23,5 +23,5 @@ public class ContantUtil {
     public static final int LEN_TYPE_SET=12;
     public static final int SET_UPDATE_ADD=13;
     public static final int SET_UPDATE_DELETE=14;
-    public static final int MAX_FEEDBACK_LENTH=500;
+    public static final int MAX_FEEDBACK_LENTH=200;
 }
