@@ -26,13 +26,13 @@ public class CacheClearTask {
     public void clearCache(){
          //每半小时触发一次
        System.out.println("scheduler task working!");
-       LOGGER.debug("scheduler task working!");
+       LOGGER.error("scheduler task working!");
        Set<String> groupNames= redisServiceImp.getGroupNamesFromCache();
        //遍历每一个group
            for(String s : groupNames){
               //直接删掉
                if(redisServiceImp.deleteGroupFeedback(s)==false){
-                   LOGGER.debug("delete group fd error");
+                   LOGGER.error("delete group fd error");
                }
            }
     }
