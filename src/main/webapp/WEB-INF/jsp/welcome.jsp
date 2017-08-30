@@ -131,7 +131,7 @@
 							<img src="img/icons/svg/retina.svg" alt="Retina"
 								style="margin-left: 45%;">
 						</div>
-						<h1 class="text-info">Start module tracking and better control your robotics!</h1>
+						<h3 class="" style="text-align:center">Module tracking, for better robotics control</h3>
 					</div>
 				</div>
 				<div id="groupShowDiv" class="jumbotron"
