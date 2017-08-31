@@ -383,11 +383,11 @@
 			name : "value",
 		},
 		dataZoom : [ {
-			start : 95,
+			start : 0,
 			end : 100
 		} ],
 		series : [ {
-			name : 'value',
+			name : 'value', 
 			type : 'line',
 			data : [ [ 1503564704152, 2 ], [ 1503564705152, 3 ],
 					[ 1503564706152, 6 ], [ 1503564707152, 8 ],
