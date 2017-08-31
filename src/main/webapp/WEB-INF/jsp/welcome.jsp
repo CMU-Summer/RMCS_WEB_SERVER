@@ -5,10 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
+
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/js/echarts.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/sweetalert2.js"></script>
 <script src="${pageContext.request.contextPath}/js/flat-ui.js"></script>
+<script src="${pageContext.request.contextPath}/js/BootstrapMenu.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/bootstrap-treeview.min.js"></script>
 <script
@@ -96,7 +98,7 @@
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
 								<ul class="nav navbar-nav groupMenu">
 									<!--这里会变得多起来-->
-									<li class="groupItemNops"><a href="#" ><i
+									<li class="groupItemNops"><a href="#"><i
 											class="icon-spinner icon-spin"></i></a></li>
 								</ul>
 							</div>
@@ -109,14 +111,15 @@
 						<div class="navbar navbar-default" role="navigation">
 							<div class="navbar-collapse collapse sidebar-navbar-collapse">
 								<ul class="nav navbar-nav">
-									<li class="addGroupItem" data-toggle="modal" data-target="#addGroupModal" style="text-align: center"><a
+									<li class="addGroupItem" data-toggle="modal"
+										data-target="#addGroupModal" style="text-align: center"><a
 										href="#"><span class="fa fa-plus"
 											style="padding: 5px; font-size: 20px;"></span></a></li>
 								</ul>
 							</div>
 							<!--/.nav-collapse -->
 						</div>
-					</div> 
+					</div>
 
 				</div>
 			</div>
@@ -131,7 +134,8 @@
 							<img src="img/icons/svg/retina.svg" alt="Retina"
 								style="margin-left: 45%;">
 						</div>
-						<h3 class="" style="text-align:center">Module tracking, for better robotics control</h3>
+						<h3 class="" style="text-align: center">Module tracking, for
+							better robotics control</h3>
 					</div>
 				</div>
 				<div id="groupShowDiv" class="jumbotron"
@@ -197,7 +201,7 @@
 									<!-- 电压 电流 -->
 									<div class="col-md-6 datazone">
 										<!-- 表明是电压表 -->
-										<div class="row pbl"> 
+										<div class="row pbl">
 											<div class="col-md-6">
 												<label class="checkbox" for="voltage-switch"> <input
 													type="checkbox" class="voltage-switch chartsWitch"
@@ -315,17 +319,19 @@
 						aria-hidden="true">RMCS</button>
 					<h4 class="modal-title" id="myModalLabel">Add Group</h4>
 				</div>
-				<div class="desNote"> 1.chose the moudles the group has!</div>
+				<div class="desNote">1.chose the moudles the group has!</div>
 				<div class="modal-body familyMap" id="familyMap">
 					<!--将会在这里出现个树的结构-->
 				</div>
-				<div class="desNote"> 2.input the group name ,it can't contain '_' or any space!,then you can submit</div>
+				<div class="desNote">2.input the group name ,it can't contain
+					'_' or any space!,then you can submit</div>
 				<div class="inputDiv">
-						<input type="text" class="form-control gnameInput" placeholder="input groupName" />
+					<input type="text" class="form-control gnameInput"
+						placeholder="input groupName" />
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default addGroupCancelButton" data-dismiss="modal">close
-					</button>
+					<button type="button" class="btn btn-default addGroupCancelButton"
+						data-dismiss="modal">close</button>
 					<button type="button" class="btn btn-primary addGroupButton">submit</button>
 				</div>
 			</div>
@@ -344,7 +350,7 @@
 		nowGroup : null, //字符串，当前group的名字
 		nowModuleIndex : -1,//在group里面的偏移
 		groupChange : 0,
-		familyMap:null,
+		familyMap : null,
 	};
 	var websokcets = {
 		g_sock : null,
@@ -377,8 +383,8 @@
 			name : "value",
 		},
 		dataZoom : [ {
-			start:95,
-			end:100
+			start : 95,
+			end : 100
 		} ],
 		series : [ {
 			name : 'value',
@@ -478,15 +484,15 @@
 				timeStamp : 124153647474,
 				value : 4.6
 			} ],
-			led_fields : [{
+			led_fields : [ {
 				led_R : 145,
 				led_G : 0,
 				led_B : 0
-			}]
+			} ]
 		}, ],
 	};
 	window.onbeforeunload = function checkLeave(e) {
-	
+
 		if (websokcets.g_sock != null && websokcets.g_sock != undefined)
 			websokcets.g_sock.close();
 		if (websokcets.fd_sock != null && websokcets.fd_sock != undefined)
@@ -505,7 +511,7 @@
 		//添加group按钮绑定事件
 
 		$(".addGroupItem").bind("click", function(e) {
-				getFamilyAndItNames();//去访问服务器，获得familyMap
+			getFamilyAndItNames();//去访问服务器，获得familyMap
 		});
 		//添加 group submit绑定事件
 		$(".addGroupButton").bind("click", function(e) {
@@ -515,65 +521,68 @@
 			closeGroupAddingModal();//销毁树
 		});
 
-
 		//建立socket
 		establishGroupSocket();
 		establishFeedbackSocket();
 		//正确设置div显示【这个可以静态设置的】
 
 	});
-	function getFamilyAndItNames(){
+	function getFamilyAndItNames() {
 		//从服务器获得family和它的names的对象 {list:[{name:"",nameList:["","",""]}]}
 		//之前的树没销毁，就把他销毁掉
-		if(state.familyMap !=null)$("#familyMap").treeview("remove");
-		$.ajax({
-				url:"${pageContext.request.contextPath}/getFamilyAndItNames", //获取family和names
-				type:"POST",
-				data:{},
-				dataType:"JSON",
-				beforeSend:function(){
-					//送之前可以显示一句话
-					var tempDiv=$('<div><i class="icon-spinner icon-spin"></i><strong>please wait to get modules</strong></div>')
-					$(".familyMap").empty();//清空
-					//然后坠上
-					$(".familyMap").append(tempDiv);
-				},
-				success:function(data){
-					//这个data就是json格式的，现在把他转换成一个树,坠在上面
-					changeFamilyAndItNamesMapToTree(data);
-				},
-				error:function(e){
+		if (state.familyMap != null)
+			$("#familyMap").treeview("remove");
+		$
+				.ajax({
+					url : "${pageContext.request.contextPath}/getFamilyAndItNames", //获取family和names
+					type : "POST",
+					data : {},
+					dataType : "JSON",
+					beforeSend : function() {
+						//送之前可以显示一句话
+						var tempDiv = $('<div><i class="icon-spinner icon-spin"></i><strong>please wait to get modules</strong></div>')
+						$(".familyMap").empty();//清空
+						//然后坠上
+						$(".familyMap").append(tempDiv);
+					},
+					success : function(data) {
+						//这个data就是json格式的，现在把他转换成一个树,坠在上面
+						changeFamilyAndItNamesMapToTree(data);
+					},
+					error : function(e) {
 						//出错了，应该关闭
-						swal({
-								title: "Sorry",
-								text: "you can't add group,please notice the admin!",
-								showCancelButton: false,
-								type: "error",
-								confirmButtonText: "ok",
-								closeOnConfirm: false,
-							}).then(
-							function(){
+						swal(
+								{
+									title : "Sorry",
+									text : "you can't add group,please notice the admin!",
+									showCancelButton : false,
+									type : "error",
+									confirmButtonText : "ok",
+									closeOnConfirm : false,
+								}).then(function() {
 							//1.关闭modal,2 销毁familyMap树
-								closeGroupAddingModal();
-							});
-				}
+							closeGroupAddingModal();
+						});
+					}
 
-
-		});
+				});
 	}
-	function changeFamilyAndItNamesMapToTree(data){
+	function changeFamilyAndItNamesMapToTree(data) {
 		//转换成树，然后坠上去
-		 var list=data.list;
-		 var treeOpt=[];
-		 for(var i=0;i<list.length;i++){
-			var fNode={};
-			fNode.text=list[i].name;//根节点是name
-			fNode.nodeId=list[i].name;//根节点是name
-			fNode.selectable=false;//不让选根
-			fNode.nodes=[];
-			var nameList=list[i].nameList; //字符串的数组
-			for(var j=0;j<nameList.length;j++){
-				fNode.nodes.push({text:nameList[j],nodeId:nameList[j]})
+		var list = data.list;
+		var treeOpt = [];
+		for (var i = 0; i < list.length; i++) {
+			var fNode = {};
+			fNode.text = list[i].name;//根节点是name
+			fNode.nodeId = list[i].name;//根节点是name
+			fNode.selectable = false;//不让选根
+			fNode.nodes = [];
+			var nameList = list[i].nameList; //字符串的数组
+			for (var j = 0; j < nameList.length; j++) {
+				fNode.nodes.push({
+					text : nameList[j],
+					nodeId : nameList[j]
+				})
 			}
 			treeOpt.push(fNode); //把这个节点放进去
 		}
@@ -581,54 +590,55 @@
 		$("#familyMap").empty();
 		//显示树
 		$("#familyMap").treeview({
-			data:treeOpt,
-			multiSelect:true,
-			levels:5,
+			data : treeOpt,
+			multiSelect : true,
+			levels : 5,
 		});
 
-		state.familyMap="tree";
+		state.familyMap = "tree";
 
 	}
 
-	function sumitGroupToAdd(){
+	function sumitGroupToAdd() {
 		//提交group
-		if(state.familyMap == null){
-			swal("sorry!","you must choose some modules!","error");
-		}else {
+		if (state.familyMap == null) {
+			swal("sorry!", "you must choose some modules!", "error");
+		} else {
 			//先判断输入group的名字合不合法
-			if(checkGroupName() == false){
-				swal("Sorry","the name cannot contain the '_' or any space","error");
-				return ;
+			if (checkGroupName() == false) {
+				swal("Sorry", "the name cannot contain the '_' or any space",
+						"error");
+				return;
 			}
-			var list=	$('#familyMap').treeview('getSelected');
-			if(list.length<0){
-					//没有选,
-				swal("Sorry","you must chose one module !","error");
-				return ;
+			var list = $('#familyMap').treeview('getSelected');
+			if (list.length < 0) {
+				//没有选,
+				swal("Sorry", "you must chose one module !", "error");
+				return;
 			}
 			//从树种获取所有选择的节点
 			//转换成一个json结构，
-			var json=changeToGroupJsonObject(list);
+			var json = changeToGroupJsonObject(list);
 			//访问服务器
 			$.ajax({
-				url:"${pageContext.request.contextPath}/addGroup", //获取family和names
-				type:"POST",
-				data:JSON.stringify(json),
-				dataType:"JSON",
-				contentType:"application/json",
-				success:function(data){
-					if(data.result == false || data.result == "false"){
-						swal("Sorry",data.des,"error");
+				url : "${pageContext.request.contextPath}/addGroup", //获取family和names
+				type : "POST",
+				data : JSON.stringify(json),
+				dataType : "JSON",
+				contentType : "application/json",
+				success : function(data) {
+					if (data.result == false || data.result == "false") {
+						swal("Sorry", data.des, "error");
 
-					}else {
+					} else {
 
-					 	swal("Ok!",data.des,"success");
+						swal("Ok!", data.des, "success");
 						//关闭模态框触发，
 						$('#addGroupModal').modal('hide');
 					}
 				},
-				error:function(e){
-					swal("Sorry","add group failed","error");
+				error : function(e) {
+					swal("Sorry", "add group failed", "error");
 				}
 			});
 
@@ -636,69 +646,72 @@
 
 		}
 	}
-	function checkGroupName(){
-		var value=$(".gnameInput").eq(0).val();
-		value=value.replace(/\s+/g, "");
-		if(value.indexOf("_")!=-1 || value =="" || value.indexOf(" ")!=-1 ){
+	function checkGroupName() {
+		var value = $(".gnameInput").eq(0).val();
+		value = value.replace(/\s+/g, "");
+		if (value.indexOf("_") != -1 || value == "" || value.indexOf(" ") != -1) {
 			return false;
 		}
 		return true;
 	}
-	function changeToGroupJsonObject(list){
+	function changeToGroupJsonObject(list) {
 		//吧树内容转换成json结构
 
 		//先抽取所有父节点，
 
-		var familyKey=[];//family的字典
+		var familyKey = [];//family的字典
 		//选了的，一定是子节点，去找他的父节点，然后保存成json
-		for(var i=0;i<list.length;i++){
-				var familyNode= $('#familyMap').treeview('getParent', list[i]); //找到family所在的节点
-				if(familyKey[familyNode.text] ==null || familyKey[familyNode.text] ==undefined){
-						//这个字典创建一个对象
-					familyKey[familyNode.text]={
-							nameList:[]
-					};
-					//push进来
-					familyKey[familyNode.text].nameList.push({
-							name:list[i].text,
-							connected:0,//未连接
-					});
-				}else{
-					//已经有了
-					//push进来
-					familyKey[familyNode.text].nameList.push({
-							name:list[i].text,
-							connected:0,//未连接
-					});
-				}
+		for (var i = 0; i < list.length; i++) {
+			var familyNode = $('#familyMap').treeview('getParent', list[i]); //找到family所在的节点
+			if (familyKey[familyNode.text] == null
+					|| familyKey[familyNode.text] == undefined) {
+				//这个字典创建一个对象
+				familyKey[familyNode.text] = {
+					nameList : []
+				};
+				//push进来
+				familyKey[familyNode.text].nameList.push({
+					name : list[i].text,
+					connected : 0,//未连接
+				});
+			} else {
+				//已经有了
+				//push进来
+				familyKey[familyNode.text].nameList.push({
+					name : list[i].text,
+					connected : 0,//未连接
+				});
+			}
 		}
 		//开始构建json对象
-		var json={
-			name:$(".gnameInput").eq(0).val(),
-			familyList:[]
+		var json = {
+			name : $(".gnameInput").eq(0).val(),
+			familyList : []
 
 		}
-		for(var key in familyKey){
-				//
-				var fstruct={
-					name:key,
-					nameList:[]
-				}
-				for(var i=0;i<familyKey[key].nameList.length;i++){
-						//这里面的每个都push 到naeList里面去
-					fstruct.nameList.push(familyKey[key].nameList[i]);
-				}
-				json.familyList.push(fstruct);
+		for ( var key in familyKey) {
+			//
+			var fstruct = {
+				name : key,
+				nameList : []
+			}
+			for (var i = 0; i < familyKey[key].nameList.length; i++) {
+				//这里面的每个都push 到naeList里面去
+				fstruct.nameList.push(familyKey[key].nameList[i]);
+			}
+			json.familyList.push(fstruct);
 		}
 		return json;//返回组建好的
 	}
-	function closeGroupAddingModal(){
+	function closeGroupAddingModal() {
 		//关闭模态框触发，
 		$('#addGroupModal').modal('hide');
 		//销毁树
-		if(state.familyMap != null){$("#familyMap").treeview("remove");}
+		if (state.familyMap != null) {
+			$("#familyMap").treeview("remove");
+		}
 		//清空
-		state.familyMap=null;
+		state.familyMap = null;
 	}
 	function establishFeedbackSocket() {
 		if ('WebSocket' in window) {
@@ -759,11 +772,13 @@
 	}
 	function groupSocketError(e) {
 		//g_sock发生错误
-		swal("", "group socket error,please reflush the web page" + e.message, "error");
+		swal("", "group socket error,please reflush the web page" + e.message,
+				"error");
 	}
 	function groupSocketClose(e) {
 		//g_sock关闭链接
-		swal("", "group socket close,please reflush the web page" + e.message, "info");
+		swal("", "group socket close,please reflush the web page" + e.message,
+				"info");
 	}
 
 	function feedbackSocketOpen() {
@@ -795,10 +810,16 @@
 	}
 
 	function feedbackSocketError(e) {
-		swal("", "feedback socket error,please reflush the web page or notice the admin" , "error");
+		swal(
+				"",
+				"feedback socket error,please reflush the web page or notice the admin",
+				"error");
 	}
 	function feedbackSocketClose(e) {
-		swal("", "feedback socket closed,please reflush the web page or notice the admin" , "info");
+		swal(
+				"",
+				"feedback socket closed,please reflush the web page or notice the admin",
+				"info");
 
 	}
 
@@ -870,7 +891,8 @@
 	}
 	function deleteFromGroupMenu(groupName) {
 		//找到类里面key为group的，然后删除掉
-
+		var selector = ".groupItem[" + "key=" + groupName + "]";
+		$(selector).remove();
 	}
 	function creatGroupIndist(groupInfo) {
 		//在字典中创建条目
@@ -888,7 +910,18 @@
 		//放置在菜单中去
 		//1 创建 条目元素
 		var groupName = groupInfo.groupName;
-		var groupName_sub = groupName.substring(0, groupName.indexOf("_g")); //截取，用来显示
+		var groupName_sub = "";
+
+		//这里需要区分一下
+		if (groupName.indexOf("_fix") == -1) {
+			groupName_sub = groupName.substring(0, groupName.indexOf("_g")); //截取，用来显示
+			isFixed = 0;
+		} else {
+			groupName_sub = groupName.substring(0, groupName
+					.lastIndexOf("_fix")); //截取，用来显示
+			groupName_sub += "*";
+		}
+
 		var liElement = $('<li class="groupItem" ><a href="#"><i class="icon-play menuIcon"></i></a></li>'); //图标默认是display = none
 		//2 设置显示文本
 		liElement.find("a").append(groupName_sub);
@@ -902,6 +935,59 @@
 		//5 重置点击方法
 		$(".groupItem").bind("click", function() {
 			onClick_groupMenu($(this));//进行处理
+		});
+		//6.增加右键菜单
+		state.menu = new BootstrapMenu('.groupItem',{       
+            fetchElementData:function(item){     
+                var data = item.attr("key");  
+                return data;    //return的目的是给下面的onClick传递参数
+            },
+
+            actionsGroups: [  //给右键菜单的选项加一个分组，分割线
+ 
+                ['history'],
+                ['deleteKey']
+
+            ],
+            /* you can declare 'actions' as an object instead of an array,
+            * and its keys will be used as action ids. */
+            //自定义右键菜单的功能
+            actions: {
+            	history: {
+                    name: '<font size=3>history</font>',
+                    iconClass: 'fa fa-plus',
+                    onClick: function(key) {    //添加右击事件
+                    	
+                    }
+                  
+                },
+                deleteKey: {
+                   name: '<font size=3>delete</font>',
+                   iconClass: 'fa fa-trash',
+                   onClick: function(key) {  //删除右击事件
+                	   $.ajax({
+           				url : "${pageContext.request.contextPath}/deleteGroup", //获取family和names
+           				type : "POST",
+           				data : {
+           					"groupName":key
+           				},
+           				dataType : "JSON",
+           				success : function(data) {
+           					if (data.result == false || data.result == "false") {
+           						swal("Sorry", data.des, "error");
+
+           					} else {
+
+           						swal("Ok!", data.des, "success");
+           					}
+           				},
+           				error : function(e) {
+           					swal("Sorry", "add group failed", "error");
+           				}
+           			});
+                   }
+               } 
+            }
 		});
 	}
 	function onClick_groupMenu(thisJqEle) {
@@ -1141,13 +1227,11 @@
 	function paintLedAndTimeDiv(led, timeStamp) {
 		//设置灯的颜色
 		$(".led").css("color", colorRGB2Hex(led.led_R, led.led_G, led.led_B));
-		
-		$(".ledData")
-				.text(
-						"[R:" + led.led_R + "   G: " + led.led_G + "   B:"
-								+ led.led_B + "]");//设置文本
-		$(".feedbackTimeDiv").text(
-				"UpdateOn:   " + toLocalFormTime(timeStamp));//设置时间文本
+
+		$(".ledData").text(
+				"[R:" + led.led_R + "   G: " + led.led_G + "   B:" + led.led_B
+						+ "]");//设置文本
+		$(".feedbackTimeDiv").text("UpdateOn:   " + toLocalFormTime(timeStamp));//设置时间文本
 
 	}
 	function paintDataDiv(voltageSeries, currentSeries, torqueSeries,
@@ -1155,11 +1239,11 @@
 		//根据传进来的电压 电流 速度 扭矩 位置 更新div上的内容
 		if (voltageSeries.data.length > 0) {
 			var value = voltageSeries.data[voltageSeries.data.length - 1][1];//1是值
-			$(".voltageDataShow").text(value+" V");
+			$(".voltageDataShow").text(value + " V");
 		}
 		if (currentSeries.data.length > 0) {
 			var value = currentSeries.data[currentSeries.data.length - 1][1];//1是值
-			$(".currentDataShow").text(value+" A");
+			$(".currentDataShow").text(value + " A");
 		}
 		if (torqueSeries.data.length > 0) {
 			var value = torqueSeries.data[torqueSeries.data.length - 1][1];//1是值

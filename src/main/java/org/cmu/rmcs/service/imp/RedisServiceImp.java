@@ -171,4 +171,48 @@ public class RedisServiceImp implements RedisService{
         return keys>=1?true:false;
     }
 
+    @Override
+    public List<GroupStruct> getfixedGroupFromCache(Set<String> fixedSet) {
+        // TODO Auto-generated method stub
+        //fixedSet是要新添加的
+        Set<String> fixedGroupNameSet=redisDao.getSpecPostfixKey(ContantUtil.POSTFIX_FIXED_GROUP_KEY);
+        Set<String> fixedGroupNameSet1=new HashSet<>(fixedGroupNameSet);
+        for(String s:fixedGroupNameSet1){
+            if(fixedSet.contains(s) ==false){
+                fixedGroupNameSet.remove(s);//如果fixedSet是需要的，如果没有，就从这里面remove掉
+            }
+        }
+        List<GroupStruct> arryList=new ArrayList<>();
+        for(String s:fixedGroupNameSet){
+            String fixGroupJsonStr = redisDao.getStr(s);
+            if(StringUtil.isBlank(fixGroupJsonStr) == false ){
+                JSONObject jsonObject=JSONObject.parseObject(fixGroupJsonStr);
+                GroupStruct groupStruct=JSONObject.toJavaObject(jsonObject, GroupStruct.class);
+                arryList.add(groupStruct);
+            }
+        }
+        return arryList;
+    }
+
+    @Override
+    public Set<String> getfixedGroupsNameFromCache() {
+        // TODO Auto-generated method stub
+     return redisDao.getSpecPostfixKey(ContantUtil.POSTFIX_FIXED_GROUP_KEY);
+    }
+
+    @Override
+    public Set<String> getGroupAndFixNamesFromCache() {
+        // TODO Auto-generated method stub
+        Set<String> s1=this.getGroupNamesFromCache();
+        Set<String> s2=this.getfixedGroupsNameFromCache();
+        s1.addAll(s2); //全部加在一起
+        return s1;
+    }
+
+    @Override
+    public boolean deleteFixedGroupInCache(String groupName) {
+        // TODO Auto-generated method stub
+        return redisDao.deletKey(groupName)>=1?true:false;
+    }
+
 }

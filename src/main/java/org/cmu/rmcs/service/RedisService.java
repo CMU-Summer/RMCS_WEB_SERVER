@@ -47,4 +47,18 @@ public interface RedisService {
     //11 删除group的feedback
     public boolean deleteGroupFeedback(String groupNmae);
     
+    //12 hack 代码 获取 fixedgroup
+    
+    public List<GroupStruct> getfixedGroupFromCache(Set<String> s);
+    
+    //13 获取fixedGroup的name set
+    public Set<String> getfixedGroupsNameFromCache();
+    
+    //14 hack 获取fixed和人为添加的
+    public Set<String> getGroupAndFixNamesFromCache();
+    
+    //15 hack 删除fixed group
+    public boolean deleteFixedGroupInCache(String groupName);
+    
+    
 }

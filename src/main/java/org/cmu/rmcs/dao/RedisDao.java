@@ -2,11 +2,13 @@ package org.cmu.rmcs.dao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.cmu.rmcs.util.ContantUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,28 +225,7 @@ public class RedisDao {
             LOGGER.error(e.getMessage());
             return false;
         }  
-//        return redisTemplate.execute(new RedisCallback<Boolean>() {
-//
-//            public Boolean doInRedis(RedisConnection redisConnection)
-//                    throws DataAccessException {
-//                // TODO Auto-generated method stub
-//                try {
-//                    // 用来吧string 搞成字符数组的
-//                    RedisSerializer<String> serializer = redisTemplate
-//                            .getStringSerializer();
-//                    byte[] keyBty=serializer.serialize(key);
-//                    byte[] valueBty=serializer.serialize(value);
-//                    return redisConnection.sIsMember(keyBty, valueBty);
-//                } catch (DataAccessException e) {
-//                    // TODO: handle exception
-//                    e.printStackTrace();
-//                    LOGGER.error(e.getMessage());
-//                    return false;
-//                }
-//
-//            }
-//        });
-        
+
         
     }
 
@@ -263,5 +244,22 @@ public class RedisDao {
         
     }
     
-
+    //获取带有某个特定后缀的key
+    public Set<String> getSpecPostfixKey(String postFix){
+        try {
+          ValueOperations<String, String> vOpt= redisTemplate.opsForValue();
+          RedisOperations<String, String>roOperations= vOpt.getOperations();
+          Set<String> resSet=roOperations.keys("*"+postFix);
+            return resSet;
+           
+        } catch (Exception e) {
+            // TODO: handle exception 
+            e.printStackTrace();
+            LOGGER.error(e.getMessage());
+            return new HashSet<>();
+        }
+        
+        
+        
+    }
 }

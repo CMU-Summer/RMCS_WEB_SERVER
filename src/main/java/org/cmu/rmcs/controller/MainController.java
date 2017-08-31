@@ -140,17 +140,26 @@ public class MainController {
             RequestMethod.POST, RequestMethod.GET })
     @ResponseBody
     public JSONObject deleteGroup(
-            @RequestBody 
+   
             HttpServletRequest req
             
       ){
         String groupName = req.getParameter("groupName");
+        
         CommonRes commonRes=new CommonRes();
-        boolean isSucceed= redisServiceImp.deleteGroupIncache(groupName);
-        if(isSucceed){
-            commonRes.setDes("delete group successfully! please wait for group menu reflush!");  
+        boolean isSucceed=false;
+        if(groupName.endsWith(ContantUtil.POSTFIX_FIXED_GROUP_KEY)){
+            //以_fix结尾的，不能删
+            isSucceed=false;
+            commonRes.setDes("fixed group cannot be deleted!");  
         }else {
-            commonRes.setDes("delete group failed!");  
+            isSucceed = redisServiceImp.deleteGroupIncache(groupName);
+            if(isSucceed){
+                commonRes.setDes("delete group successfully! please wait for group menu reflush!");  
+            }else {
+                commonRes.setDes("delete group failed!");  
+            }
+            
         }
         commonRes.setSucceed(isSucceed);
         return JSONObject.parseObject(JSONObject.toJSONString(commonRes));

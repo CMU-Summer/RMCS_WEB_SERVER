@@ -58,7 +58,7 @@ public class FeedbackSocketService implements Runnable{
           return;
            
       }
-      Set<String> groupList = redisServiceImp.getGroupNamesFromCache();
+      Set<String> groupList = redisServiceImp.getGroupAndFixNamesFromCache();
       // 分析/更新索引值
       analysisAndUpdateIndexMap(groupList);
       // 取每个group的最新fd
