@@ -937,58 +937,90 @@
 			onClick_groupMenu($(this));//进行处理
 		});
 		//6.增加右键菜单
-		state.menu = new BootstrapMenu('.groupItem',{       
-            fetchElementData:function(item){     
-                var data = item.attr("key");  
-                return data;    //return的目的是给下面的onClick传递参数
-            },
+		state.menu = new BootstrapMenu(
+				'.groupItem',
+				{
+					fetchElementData : function(item) {
+						var data = item.attr("key");
+						return data; //return的目的是给下面的onClick传递参数
+					},
 
-            actionsGroups: [  //给右键菜单的选项加一个分组，分割线
- 
-                ['history'],
-                ['deleteKey']
+					actionsGroups : [ //给右键菜单的选项加一个分组，分割线
 
-            ],
-            /* you can declare 'actions' as an object instead of an array,
-            * and its keys will be used as action ids. */
-            //自定义右键菜单的功能
-            actions: {
-            	history: {
-                    name: '<font size=3>history</font>',
-                    iconClass: 'fa fa-plus',
-                    onClick: function(key) {    //添加右击事件
-                    	
-                    }
-                  
-                },
-                deleteKey: {
-                   name: '<font size=3>delete</font>',
-                   iconClass: 'fa fa-trash',
-                   onClick: function(key) {  //删除右击事件
-                	   $.ajax({
-           				url : "${pageContext.request.contextPath}/deleteGroup", //获取family和names
-           				type : "POST",
-           				data : {
-           					"groupName":key
-           				},
-           				dataType : "JSON",
-           				success : function(data) {
-           					if (data.result == false || data.result == "false") {
-           						swal("Sorry", data.des, "error");
+					[ 'history' ], [ 'deleteKey' ]
 
-           					} else {
+					],
+					/* you can declare 'actions' as an object instead of an array,
+					 * and its keys will be used as action ids. */
+					//自定义右键菜单的功能
+					actions : {
+						history : {
+							name : '<font size=2>history</font>',
+							iconClass : 'fa fa-history',
+							onClick : function(key) { //添加右击事件
 
-           						swal("Ok!", data.des, "success");
-           					}
-           				},
-           				error : function(e) {
-           					swal("Sorry", "add group failed", "error");
-           				}
-           			});
-                   }
-               } 
-            }
-		});
+							}
+
+						},
+						deleteKey : {
+							name : '<font size=2>delete</font>',
+							iconClass : 'fa fa-trash',
+							onClick : function(key) { //删除右击事件
+								swal(
+										{
+											title : "Warning",
+											text : "are you sure you want to delete it?",
+											showCancelButton : true,
+											type : "warning",
+											confirmButtonText : "yes",
+											closeOnConfirm : false,
+											cancelButtonText : "no",
+										})
+										.then(
+												function(config) {
+													if (config) {
+														$
+																.ajax({
+																	url : "${pageContext.request.contextPath}/deleteGroup", //获取family和names
+																	type : "POST",
+																	data : {
+																		"groupName" : key
+																	},
+																	dataType : "JSON",
+																	success : function(
+																			data) {
+																		if (data.result == false
+																				|| data.result == "false") {
+																			swal(
+																					"Sorry",
+																					data.des,
+																					"error");
+
+																		} else {
+
+																			swal(
+																					"Ok!",
+																					data.des,
+																					"success");
+																		}
+																	},
+																	error : function(
+																			e) {
+																		swal(
+																				"Sorry",
+																				"add group failed",
+																				"error");
+																	}
+																});
+
+													}
+
+												});
+
+							}
+						}
+					}
+				});
 	}
 	function onClick_groupMenu(thisJqEle) {
 		//group菜单的点击事件
