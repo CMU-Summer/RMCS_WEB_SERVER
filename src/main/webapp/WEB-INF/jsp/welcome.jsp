@@ -53,7 +53,7 @@
 
 				<ul class="nav navbar-nav navbar-right" style="margin-right: 16px;">
 					<li><a href="${pageContext.request.contextPath}/logOut"><strong
-							style="font-size: 20px;">sign out</strong> <span
+							style="font-size: 20px;">Sign out</strong> <span
 							class="fa fa-sign-out"
 							style="font-size: 25px; padding-left: 10px;"></span> </a></li>
 				</ul>
