@@ -64,6 +64,7 @@ public class WebSocketFeedbackHandler extends TextWebSocketHandler {
             // TODO: handle exception
             e.printStackTrace();
             logger.debug("can not create fd thread!!");
+            sessionThreadMap.remove(session.getId());
             session.close();
         }
 
