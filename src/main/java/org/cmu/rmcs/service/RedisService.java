@@ -60,5 +60,5 @@ public interface RedisService {
     //15 hack 删除fixed group
     public boolean deleteFixedGroupInCache(String groupName);
     
-    
+   
 }

@@ -120,7 +120,14 @@
 							<!--/.nav-collapse -->
 						</div>
 					</div>
-
+				</div>
+				<div class="row viewModuleRaw">
+					<button type="button"
+						class="btn btn-default btn-lg btn-block viewModuleButton"
+						data-toggle="modal" data-target="#viewModuleModal">
+						<i class="icon-cogs" style="padding-right: 5px"></i>View module
+						history
+					</button>
 				</div>
 			</div>
 			<div class="col-md-10">
@@ -131,8 +138,9 @@
 					style="background-color: #f9f9f9;">
 					<div class="container" id="groupContent">
 						<div>
-							<img src="img/icons/svg/retina.svg" alt="Retina"
-								style="margin-left: 45%;">
+							<img
+								src="${pageContext.request.contextPath}/img/icons/svg/robot(1).svg"
+								alt="logo" style="margin-left: 45%;">
 						</div>
 						<h3 class="" style="text-align: center">Module tracking, for
 							better robotics control</h3>
@@ -319,12 +327,12 @@
 						aria-hidden="true">RMCS</button>
 					<h4 class="modal-title" id="myModalLabel">Add Group</h4>
 				</div>
-				<div class="desNote">1.chose the moudles the group has!</div>
+				<div class="desNote">1.Select module(s)</div>
 				<div class="modal-body familyMap" id="familyMap">
 					<!--将会在这里出现个树的结构-->
 				</div>
-				<div class="desNote">2.input the group name ,it can't contain
-					'_' or any space!,then you can submit</div>
+				<div class="desNote">2.Name the group,without any "_" or white
+					space！</div>
 				<div class="inputDiv">
 					<input type="text" class="form-control gnameInput"
 						placeholder="input groupName" />
@@ -333,6 +341,73 @@
 					<button type="button" class="btn btn-default addGroupCancelButton"
 						data-dismiss="modal">close</button>
 					<button type="button" class="btn btn-primary addGroupButton">submit</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
+	</div>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="viewModuleModal" tabindex="-1"
+		role="dialog" aria-labelledby="viewModuleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" style="width: 900px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="viewModuleModalLabel">View Module
+						History</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row pbl">
+						<div class="col-md-4 familyMap" id="familyMap1">
+							<!--将会在这里出现个树的结构,清空 balabala-->
+						</div>
+						<div class="col-md-8">
+							<!--展示一个module的信息,先模拟一下-->
+							<div class="jumbotron"
+								style="padding-right: 0px; padding-left: 0px; background-color: #f9f9f9;">
+								<div class="container moduleHistoryContainer"
+									style="margin-left: 2%; display: none">
+									<div class="row">
+										<p>
+											<strong class="moduleName">SomeModule</strong>
+										</p>
+									</div>
+									<div class="row">
+										<!--第二行显示Already use:-->
+										<p>
+											<strong>Already use:</strong>
+										</p>
+									</div>
+									<div class="row">
+										<!--第三行显示使用时间-->
+										<p class="moduleHistory">0d 0hr 0min 0sec</p>
+									</div>
+									<div class="row">
+										<!--第四行显示Latest use-->
+										<p>
+											<strong>Latest use:</strong>
+										</p>
+									</div>
+									<div class="row">
+										<!--第五行显示列表展示最新3次-->
+										<ul class="moduleHistoryUl">
+											<li>x/x/x x:x:x- x/x/x x:x:x</li>
+										</ul>
+									</div>
+								</div>
+								<div class="container moduleHistoryContainerTemp"
+									style="margin-left: 2%; display: block;">
+									<h3>Choose a module please</h3>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">close</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
@@ -351,6 +426,7 @@
 		nowModuleIndex : -1,//在group里面的偏移
 		groupChange : 0,
 		familyMap : null,
+		familyMap1 : null
 	};
 	var websokcets = {
 		g_sock : null,
@@ -387,7 +463,7 @@
 			end : 100
 		} ],
 		series : [ {
-			name : 'value', 
+			name : 'value',
 			type : 'line',
 			data : [ [ 1503564704152, 2 ], [ 1503564705152, 3 ],
 					[ 1503564706152, 6 ], [ 1503564707152, 8 ],
@@ -520,13 +596,61 @@
 		$(".addGroupCancelButton").bind("click", function(e) {
 			closeGroupAddingModal();//销毁树
 		});
-
+		//添加viewModuleRaw的事件
+		$(".viewModuleRaw").bind("click", function() {
+			getFamilyAndItNamesForVMH();
+		});
 		//建立socket
 		establishGroupSocket();
 		establishFeedbackSocket();
 		//正确设置div显示【这个可以静态设置的】
 
 	});
+	function getFamilyAndItNamesForVMH() {
+		//从服务器获得family和它的names的对象 {list:[{name:"",nameList:["","",""]}]}
+		//之前的树没销毁，就把他销毁掉
+		if (state.familyMap1 != null)
+			$("#familyMap1").treeview("remove");
+		$
+				.ajax({
+					url : "${pageContext.request.contextPath}/getFamilyAndItNames", //获取family和names
+					type : "POST",
+					data : {},
+					dataType : "JSON",
+					beforeSend : function() {
+						//送之前可以显示一句话
+						var tempDiv = $('<div><i class="icon-spinner icon-spin"></i><strong>please wait to get modules</strong></div>')
+						$(".familyMap").empty();//清空
+						//然后坠上
+						$(".familyMap").append(tempDiv);
+						//设置可见域 view module history div显示/真实div隐藏
+						$(".moduleHistoryContainerTemp")
+								.css("display", "block");
+						$(".moduleHistoryContainer").css("display", "none");
+					},
+					success : function(data) {
+						//这个data就是json格式的，现在把他转换成一个树,坠在上面
+						changeFamilyAndItNamesMapToTreeForVMH(data);
+					},
+					error : function(e) {
+						//出错了，应该关闭
+						swal(
+								{
+									title : "Sorry",
+									text : "you can't get any module,please notice the admin!",
+									showCancelButton : false,
+									type : "error",
+									confirmButtonText : "ok",
+									closeOnConfirm : false,
+								}).then(function() {
+							//1.关闭modal,2 销毁familyMap树
+							closeGroupAddingModalForVMH();
+						});
+					}
+
+				});
+
+	}
 	function getFamilyAndItNames() {
 		//从服务器获得family和它的names的对象 {list:[{name:"",nameList:["","",""]}]}
 		//之前的树没销毁，就把他销毁掉
@@ -567,6 +691,133 @@
 
 				});
 	}
+	function changeFamilyAndItNamesMapToTreeForVMH(data) {
+		//转换成树，然后坠上去
+		var list = data.list;
+		var treeOpt = [];
+		for (var i = 0; i < list.length; i++) {
+			var fNode = {};
+			fNode.text = list[i].name;//根节点是name
+			fNode.nodeId = list[i].name;//根节点是name
+			fNode.selectable = false;//不让选根
+			fNode.nodes = [];
+			var nameList = list[i].nameList; //字符串的数组
+			for (var j = 0; j < nameList.length; j++) {
+				fNode.nodes.push({
+					text : nameList[j],
+					nodeId : nameList[j]
+				})
+			}
+			treeOpt.push(fNode); //把这个节点放进去
+		}
+		//清空树在的div
+		$("#familyMap1").empty();
+		//显示树
+		$("#familyMap1").treeview({
+			data : treeOpt,
+			multiSelect : false,//VMH是单选
+			levels : 5,
+			onNodeSelected : function(event, data) {
+				//data数据就是node的信息
+				getOneModuleHistory(data);
+
+			},
+		});
+
+		state.familyMap1 = "tree";
+
+	}
+	function getOneModuleHistory(data) {
+		//1.切换显示的div
+		//2.发起请求
+		var nodeParent=$('#familyMap1').treeview('getParent', data.nodeId);
+		$
+				.ajax({
+					url : "${pageContext.request.contextPath}/getModuleHistory", //获取family和names
+					type : "POST",
+					data : {
+						"family":nodeParent.text,
+						"name":data.text
+					},
+					dataType : "JSON",
+					beforeSend :function(){
+						beforeShowMH(nodeParent.text,data.text);
+
+					},
+					success : function(data1) {
+
+						if(data1.isSucceed == false || data1.isSucceed == "false"){
+							swal(
+							{
+							title : "Sorry",
+								text : "you can't get module history,please notice the admin!",
+							showCancelButton : false,
+							type : "error",
+							confirmButtonText : "ok",
+							closeOnConfirm : false,
+							}).then(function() {
+							//1.关闭modal,2 销毁familyMap1树
+							closeGroupAddingModalForVMH();
+							});
+						}else {
+							//成功后，在div里面显示
+							showModuleHistoryIndiv(data1);
+						}
+
+					},
+					error : function(e) {
+						//出错了，应该关闭
+						swal(
+								{
+									title : "Sorry",
+									text : "you can't get module history,please notice the admin!",
+									showCancelButton : false,
+									type : "error",
+									confirmButtonText : "ok",
+									closeOnConfirm : false,
+								}).then(function() {
+								//1.关闭modal,2 销毁familyMap1树
+								closeGroupAddingModalForVMH();
+						});
+					}
+
+				});
+	}
+	function beforeShowMH(family,name) {
+		//发起服务器请求前的工作
+		//就是在几个关键的地方设置转的圈圈
+		//0.更改module name
+		$(".moduleName").empty();
+		$(".moduleName").text(family+" | "+name);
+		//1.在Already use设置圈圈
+		$(".moduleHistory").empty();
+		var tempDiv = $('<div><i class="icon-spinner icon-spin"></i></div>')
+		$(".moduleHistory").append(tempDiv);
+		//2 在Latest use 设置圈圈
+		$(".moduleHistoryUl").empty();
+		var tempDiv1 = $('<div><i class="icon-spinner icon-spin"></i></div>')
+		$(".moduleHistoryUl").append(tempDiv1);
+		//3.切换div显示面板
+		$(".moduleHistoryContainer").css("display","block");
+		$(".moduleHistoryContainerTemp").css("display","none");//隐藏
+	}
+	function showModuleHistoryIndiv(data){
+
+		//传过来的数据结构
+		//修改几个元素的内容 
+		//1.修改总时间 显示【清空+append】
+		$(".moduleHistory").empty();
+		$(".moduleHistory").text(data.totalTime);
+	    //2清空ul, 遍历data 的list ,创建latest li 元素 ，append,
+		$(".moduleHistoryUl").empty();
+		for(var i=0;i<data.moduleRecords.length;i++){
+			var record=data.moduleRecords[i];
+			var txt="<li>"+record.startTime+" - "+record.endTime+"</li>";
+			var liEle=$(txt);
+			$(".moduleHistoryUl").append(liEle);
+		}
+	}
+
 	function changeFamilyAndItNamesMapToTree(data) {
 		//转换成树，然后坠上去
 		var list = data.list;
@@ -602,11 +853,12 @@
 	function sumitGroupToAdd() {
 		//提交group
 		if (state.familyMap == null) {
-			swal("sorry!", "you must choose some modules!", "error");
+			swal("Attention", "you must choose some modules!", "error");
 		} else {
 			//先判断输入group的名字合不合法
 			if (checkGroupName() == false) {
-				swal("Sorry", "the name cannot contain the '_' or any space",
+				swal("Attention",
+						" Group name cannot contain any '_' or white space！",
 						"error");
 				return;
 			}
@@ -638,7 +890,7 @@
 					}
 				},
 				error : function(e) {
-					swal("Sorry", "add group failed", "error");
+					swal("Sorry", "Add group failed,network error!", "error");
 				}
 			});
 
@@ -713,6 +965,17 @@
 		//清空
 		state.familyMap = null;
 	}
+	function closeGroupAddingModalForVMH() {
+		//关闭模态框触发，
+		$('#viewModuleModal').modal('hide');
+		//销毁树
+		if (state.familyMap1 != null) {
+			$("#familyMap1").treeview("remove");
+		}
+		//清空
+		state.familyMap1 = null;
+	}
+
 	function establishFeedbackSocket() {
 		if ('WebSocket' in window) {
 			websokcets.fd_sock = new WebSocket(
@@ -947,21 +1210,14 @@
 
 					actionsGroups : [ //给右键菜单的选项加一个分组，分割线
 
-					[ 'history' ], [ 'deleteKey' ]
+					[ 'deleteKey' ]
 
 					],
 					/* you can declare 'actions' as an object instead of an array,
 					 * and its keys will be used as action ids. */
 					//自定义右键菜单的功能
 					actions : {
-						history : {
-							name : '<font size=2>history</font>',
-							iconClass : 'fa fa-history',
-							onClick : function(key) { //添加右击事件
 
-							}
-
-						},
 						deleteKey : {
 							name : '<font size=2>delete</font>',
 							iconClass : 'fa fa-trash',
@@ -1008,7 +1264,7 @@
 																			e) {
 																		swal(
 																				"Sorry",
-																				"add group failed",
+																				"add group failed,net error",
 																				"error");
 																	}
 																});

@@ -47,3 +47,16 @@ margin-bottom: 3%;
 	
 	
 }
+.viewModuleRaw{
+    position: fixed;
+    bottom: 5px;
+    width: 16.667%;
+    padding-left: 0px;
+
+
+}
+.viewModuleButton{
+ background-color: #ee6a35;;
+
+
+}

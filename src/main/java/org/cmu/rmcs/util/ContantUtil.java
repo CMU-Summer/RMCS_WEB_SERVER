@@ -25,4 +25,6 @@ public class ContantUtil {
     public static final int SET_UPDATE_DELETE=14;
     public static final int MAX_FEEDBACK_LENTH=200;
     public static final String POSTFIX_FIXED_GROUP_KEY="_fix";
+    public static final String MODULE_START_TIME="start";
+    public static final String MODULE_INFIX="_";
 }
