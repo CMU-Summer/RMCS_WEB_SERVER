@@ -157,9 +157,10 @@
 	<!-- websocket -->
 	<bean id="websocket" class="org.cmu.rmcs.websocket.handler.WebsocketGroupHandler" />
 	<bean id="websocket_1" class="org.cmu.rmcs.websocket.handler.WebSocketFeedbackHandler" />
-	<websocket:handlers>
+	<websocket:handlers allowed-origins="*">
 		<websocket:mapping path="/websocket/g_sock" handler="websocket" />
 		<websocket:mapping path="/websocket/fd_sock" handler="websocket_1" />
+		
 		<websocket:handshake-interceptors>
 			<bean class="org.cmu.rmcs.websocket.HandshakeInterceptor" />
 		</websocket:handshake-interceptors>

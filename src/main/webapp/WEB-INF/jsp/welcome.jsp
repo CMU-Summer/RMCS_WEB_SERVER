@@ -331,8 +331,8 @@
 				<div class="modal-body familyMap" id="familyMap">
 					<!--将会在这里出现个树的结构-->
 				</div>
-				<div class="desNote">2.Name the group,without any "_" or white
-					space！</div>
+				<div class="desNote">2.Name the group(without any "_" or white
+					space)</div>
 				<div class="inputDiv">
 					<input type="text" class="form-control gnameInput"
 						placeholder="input groupName" />
