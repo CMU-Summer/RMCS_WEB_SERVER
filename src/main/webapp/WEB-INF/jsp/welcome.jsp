@@ -398,7 +398,7 @@
 								</div>
 								<div class="container moduleHistoryContainerTemp"
 									style="margin-left: 2%; display: block;">
-									<h3>Choose a module please</h3>
+									<h3> </h3>
 								</div>
 							</div>
 						</div>
@@ -1035,12 +1035,12 @@
 	}
 	function groupSocketError(e) {
 		//g_sock发生错误
-		swal("", "group socket error,please reflush the web page" + e.message,
+		swal("", "Server Connection Failed！Please wait for a while and refresh page again. If problem still exists, contact us." + e.message,
 				"error");
 	}
 	function groupSocketClose(e) {
 		//g_sock关闭链接
-		swal("", "group socket close,please reflush the web page" + e.message,
+		swal("", "Server Connection Failed！Please wait for a while and refresh page again. If problem still exists, contact us." + e.message,
 				"info");
 	}
 
@@ -1075,13 +1075,13 @@
 	function feedbackSocketError(e) {
 		swal(
 				"",
-				"feedback socket error,please reflush the web page or notice the admin",
+				"Module Feedback Refreshed！Please refresh page again. If problem still exists, contact us.",
 				"error");
 	}
 	function feedbackSocketClose(e) {
 		swal(
 				"",
-				"feedback socket closed,please reflush the web page or notice the admin",
+				"Module Feedback Refreshed！Please refresh page again. If problem still exists, contact us.",
 				"info");
 
 	}
