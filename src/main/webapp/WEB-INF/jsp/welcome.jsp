@@ -125,8 +125,8 @@
 					<button type="button"
 						class="btn btn-default btn-lg btn-block viewModuleButton"
 						data-toggle="modal" data-target="#viewModuleModal">
-						<i class="icon-cogs" style="padding-right: 5px"></i>View module
-						history
+						<i class="icon-cogs" style="padding-right: 5px"></i>View Module
+						History
 					</button>
 				</div>
 			</div>
