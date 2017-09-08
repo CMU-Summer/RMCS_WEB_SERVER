@@ -76,6 +76,7 @@ public class WebsocketGroupHandler extends TextWebSocketHandler {
             // TODO: handle exception
             e.printStackTrace();
             logger.debug("can not create thread!!");
+            sessionThreadMap.remove(session.getId());
             session.close();
         }
        
