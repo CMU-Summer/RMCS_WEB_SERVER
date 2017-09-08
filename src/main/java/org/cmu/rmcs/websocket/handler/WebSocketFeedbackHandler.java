@@ -19,13 +19,14 @@ import org.cmu.rmcs.service.RedisService;
 import org.cmu.rmcs.util.ContantUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.alibaba.fastjson.JSONObject;
-
+@Component
 public class WebSocketFeedbackHandler extends TextWebSocketHandler {
     private static ThreadLocal<Map<String, Long>> groupIndexMapLocal = new ThreadLocal<>();
     private static ThreadLocal<Map<String, Long>> groupLenthMap = new ThreadLocal<>();
