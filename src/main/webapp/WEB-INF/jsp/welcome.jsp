@@ -122,12 +122,12 @@
 					</div>
 				</div>
 				<div class="row viewModuleRaw">
-					<button type="button"
+					<a type="button"
 						class="btn btn-default btn-lg btn-block viewModuleButton"
 						data-toggle="modal" data-target="#viewModuleModal">
-						<i class="icon-cogs" style="padding-right: 5px"></i>View Module
+						<span class="fui-eye" style="padding-right: 5px"></span>View Module
 						History
-					</button>
+					</a>
 				</div>
 			</div>
 			<div class="col-md-10">
