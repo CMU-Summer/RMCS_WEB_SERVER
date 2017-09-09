@@ -164,7 +164,7 @@
 		<websocket:handshake-interceptors>
 			<bean class="org.cmu.rmcs.websocket.HandshakeInterceptor" />
 		</websocket:handshake-interceptors>
-		<websocket:sockjs/>
+		
 	</websocket:handlers>
 
 </beans>
