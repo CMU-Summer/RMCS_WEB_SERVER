@@ -902,7 +902,7 @@
 	function checkGroupName() {
 		var value = $(".gnameInput").eq(0).val();
 		
-		var pattern = new RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
+		var pattern = new RegExp(/[(\ )(\~)(\`)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
 
 		if (pattern.test(value) ) {
 			return false;
@@ -1161,7 +1161,7 @@
 	}
 	function deleteFromGroupMenu(groupName) {
 		//找到类里面key为group的，然后删除掉
-		var selector = ".groupItem[" + "key=" + groupName + "]";
+		var selector = ".groupItem[" + "key='" + groupName + "']";
 		var selector1 = ".groupItem";
 
 		$(selector1).remove(selector);
