@@ -77,7 +77,7 @@
 					} else {
 						swal("error", data.des, "warning");
 					}
-				},
+				}, 
 				error : function(e) {
 					swal("error", e.message, "error");
 				}
@@ -88,6 +88,15 @@
 
 			swal("ops", "i can do nothing at all,so sorry!", "info");
 
+		});
+		$(".login-field").bind("keydown",function(e){
+			
+			if(e.which == 13){
+				$("#loginButton").click();
+				
+			}
+			
+			
 		});
 	</script>
 </body>
