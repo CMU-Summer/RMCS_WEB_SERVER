@@ -124,8 +124,8 @@
 				<div class="row viewModuleRaw">
 					<a type="button"
 						class="btn btn-default btn-lg btn-block viewModuleButton"
-						data-toggle="modal" data-target="#viewModuleModal">
-						<span class="fui-eye" style="padding-right: 5px"></span>View Module
+						data-toggle="modal" data-target="#viewModuleModal"> <span
+						class="fui-eye" style="padding-right: 5px"></span>View Module
 						History
 					</a>
 				</div>
@@ -331,8 +331,7 @@
 				<div class="modal-body familyMap" id="familyMap">
 					<!--将会在这里出现个树的结构-->
 				</div>
-				<div class="desNote">2.Name the group(without any "_" or white
-					space)</div>
+				<div class="desNote">2.Name the group(only nums or letters)</div>
 				<div class="inputDiv">
 					<input type="text" class="form-control gnameInput"
 						placeholder="input groupName" />
@@ -398,7 +397,7 @@
 								</div>
 								<div class="container moduleHistoryContainerTemp"
 									style="margin-left: 2%; display: block;">
-									<h3> </h3>
+									<h3></h3>
 								</div>
 							</div>
 						</div>
@@ -730,36 +729,37 @@
 	function getOneModuleHistory(data) {
 		//1.切换显示的div
 		//2.发起请求
-		var nodeParent=$('#familyMap1').treeview('getParent', data.nodeId);
+		var nodeParent = $('#familyMap1').treeview('getParent', data.nodeId);
 		$
 				.ajax({
 					url : "${pageContext.request.contextPath}/getModuleHistory", //获取family和names
 					type : "POST",
 					data : {
-						"family":nodeParent.text,
-						"name":data.text
+						"family" : nodeParent.text,
+						"name" : data.text
 					},
 					dataType : "JSON",
-					beforeSend :function(){
-						beforeShowMH(nodeParent.text,data.text);
+					beforeSend : function() {
+						beforeShowMH(nodeParent.text, data.text);
 
 					},
 					success : function(data1) {
 
-						if(data1.isSucceed == false || data1.isSucceed == "false"){
+						if (data1.isSucceed == false
+								|| data1.isSucceed == "false") {
 							swal(
-							{
-							title : "Sorry",
-								text : "you can't get module history,please notice the admin!",
-							showCancelButton : false,
-							type : "error",
-							confirmButtonText : "ok",
-							closeOnConfirm : false,
-							}).then(function() {
-							//1.关闭modal,2 销毁familyMap1树
-							closeGroupAddingModalForVMH();
+									{
+										title : "Sorry",
+										text : "you can't get module history,please notice the admin!",
+										showCancelButton : false,
+										type : "error",
+										confirmButtonText : "ok",
+										closeOnConfirm : false,
+									}).then(function() {
+								//1.关闭modal,2 销毁familyMap1树
+								closeGroupAddingModalForVMH();
 							});
-						}else {
+						} else {
 							//成功后，在div里面显示
 							showModuleHistoryIndiv(data1);
 						}
@@ -776,19 +776,19 @@
 									confirmButtonText : "ok",
 									closeOnConfirm : false,
 								}).then(function() {
-								//1.关闭modal,2 销毁familyMap1树
-								closeGroupAddingModalForVMH();
+							//1.关闭modal,2 销毁familyMap1树
+							closeGroupAddingModalForVMH();
 						});
 					}
 
 				});
 	}
-	function beforeShowMH(family,name) {
+	function beforeShowMH(family, name) {
 		//发起服务器请求前的工作
 		//就是在几个关键的地方设置转的圈圈
 		//0.更改module name
 		$(".moduleName").empty();
-		$(".moduleName").text(family+" | "+name);
+		$(".moduleName").text(family + " | " + name);
 		//1.在Already use设置圈圈
 		$(".moduleHistory").empty();
 		var tempDiv = $('<div><i class="icon-spinner icon-spin"></i></div>')
@@ -798,22 +798,23 @@
 		var tempDiv1 = $('<div><i class="icon-spinner icon-spin"></i></div>')
 		$(".moduleHistoryUl").append(tempDiv1);
 		//3.切换div显示面板
-		$(".moduleHistoryContainer").css("display","block");
-		$(".moduleHistoryContainerTemp").css("display","none");//隐藏
+		$(".moduleHistoryContainer").css("display", "block");
+		$(".moduleHistoryContainerTemp").css("display", "none");//隐藏
 	}
-	function showModuleHistoryIndiv(data){
+	function showModuleHistoryIndiv(data) {
 
 		//传过来的数据结构
 		//修改几个元素的内容 
 		//1.修改总时间 显示【清空+append】
 		$(".moduleHistory").empty();
 		$(".moduleHistory").text(data.totalTime);
-	    //2清空ul, 遍历data 的list ,创建latest li 元素 ，append,
+		//2清空ul, 遍历data 的list ,创建latest li 元素 ，append,
 		$(".moduleHistoryUl").empty();
-		for(var i=0;i<data.moduleRecords.length;i++){
-			var record=data.moduleRecords[i];
-			var txt="<li>"+record.startTime+" - "+record.endTime+"</li>";
-			var liEle=$(txt);
+		for (var i = 0; i < data.moduleRecords.length; i++) {
+			var record = data.moduleRecords[i];
+			var txt = "<li>" + record.startTime + " - " + record.endTime
+					+ "</li>";
+			var liEle = $(txt);
 			$(".moduleHistoryUl").append(liEle);
 		}
 	}
@@ -858,7 +859,7 @@
 			//先判断输入group的名字合不合法
 			if (checkGroupName() == false) {
 				swal("Attention",
-						" Group name cannot contain any '_' or white space！",
+						" Group name can only contain nums or letters！",
 						"error");
 				return;
 			}
@@ -900,8 +901,10 @@
 	}
 	function checkGroupName() {
 		var value = $(".gnameInput").eq(0).val();
-		value = value.replace(/\s+/g, "");
-		if (value.indexOf("_") != -1 || value == "" || value.indexOf(" ") != -1) {
+		
+		var pattern = new RegExp(/[(\ )(\~)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
+
+		if (pattern.test(value) ) {
 			return false;
 		}
 		return true;
@@ -1035,13 +1038,17 @@
 	}
 	function groupSocketError(e) {
 		//g_sock发生错误
-		swal("", "Server Connection Failed！Please wait for a while and refresh page again. If problem still exists, contact us." + e.message,
-				"error");
+		swal(
+				"",
+				"Server Connection Failed！Please wait for a while and refresh page again. If problem still exists, contact us."
+						+ e.message, "error");
 	}
 	function groupSocketClose(e) {
 		//g_sock关闭链接
-		swal("", "Server Connection Failed！Please wait for a while and refresh page again. If problem still exists, contact us." + e.message,
-				"info");
+		swal(
+				"",
+				"Server Connection Failed！Please wait for a while and refresh page again. If problem still exists, contact us."
+						+ e.message, "info");
 	}
 
 	function feedbackSocketOpen() {
@@ -1155,7 +1162,8 @@
 	function deleteFromGroupMenu(groupName) {
 		//找到类里面key为group的，然后删除掉
 		var selector = ".groupItem[" + "key=" + groupName + "]";
-		var selector1=".groupItem";
+		var selector1 = ".groupItem";
+
 		$(selector1).remove(selector);
 	}
 	function creatGroupIndist(groupInfo) {
@@ -1191,6 +1199,7 @@
 		liElement.find("a").append(groupName_sub);
 		//3 设置key值
 		liElement.attr("key", groupName);
+		liElement.attr("id", groupName);
 		liElement.find(".menuIcon").css("display", "none");
 		liElement.find(".menuIcon").css("padding-right", "20px");
 		liElement.find(".menuIcon").css("font-size", "12px");
