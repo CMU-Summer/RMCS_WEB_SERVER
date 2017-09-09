@@ -1155,7 +1155,8 @@
 	function deleteFromGroupMenu(groupName) {
 		//找到类里面key为group的，然后删除掉
 		var selector = ".groupItem[" + "key=" + groupName + "]";
-		$(selector).remove();
+		var selector1=".groupItem";
+		$(selector1).remove(selector);
 	}
 	function creatGroupIndist(groupInfo) {
 		//在字典中创建条目
