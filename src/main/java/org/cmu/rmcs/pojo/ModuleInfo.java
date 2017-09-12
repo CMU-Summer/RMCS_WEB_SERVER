@@ -4,16 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class ModuleInfo implements Serializable{
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    @JSONField(name="family")
     private String family="";
+    @JSONField(name="name")
     private String name="";
+    @JSONField(name="isSucceed")
     private boolean isSucceed=false;
+    @JSONField(name="des")
     private String des="";
+    @JSONField(name="totalTime")
     private String totalTime="";
+    @JSONField(name="moduleRecords")
     private List<ModuleRecord> moduleRecords=new ArrayList<ModuleRecord>();
 
     public String getName() {

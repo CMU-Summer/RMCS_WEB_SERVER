@@ -17,9 +17,11 @@ public interface ModuleDao {
     //4 从module_total_time中取指定条件的记录
     public Module_total_time getModule_total_time(String family , String name);
     //5 从module_use_record中取所有的记录
-    public List<Module_use_record> getModule_use_records(String family , String name);
+    public Module_use_record[] getModule_use_records(String family , String name);
     //6 获得指定时间段的内的module_use_record list
-    public List<Module_use_record> getModule_use_recordsByTime(String family , String name,Timestamp start,Timestamp end);
+    public Module_use_record[] getModule_use_recordsByTime(String family , String name,Timestamp start,Timestamp end);
     //7 获得某个指定时间的module_use_record
     public Module_use_record getOneModule_use_recordByTime(String family , String name,Timestamp start,Timestamp end);
+    //8 更新module_total_time某个记录的时间
+    public int updateTotalTime(String family , String name,long increateTime);
 }

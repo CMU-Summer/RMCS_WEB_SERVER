@@ -27,4 +27,19 @@ public class ContantUtil {
     public static final String POSTFIX_FIXED_GROUP_KEY="_fix";
     public static final String MODULE_START_TIME="start";
     public static final String MODULE_INFIX="_";
+    public static final String TIME_STR="%dd %dhr %dmin %dsec";
+    public static String formatTime(long ms) {  
+        
+        int ss = 1000;  
+        int mi = ss * 60;  
+        int hh = mi * 60;  
+        int dd = hh * 24;  
+
+        long day = ms / dd;  
+        long hour = (ms - day * dd) / hh;  
+        long minute = (ms - day * dd - hour * hh) / mi;  
+        long second = (ms - day * dd - hour * hh - minute * mi) / ss;  
+        String timeString=new String(ContantUtil.TIME_STR);
+        return String.format(timeString, day,hour,minute,second);  
+}  
 }

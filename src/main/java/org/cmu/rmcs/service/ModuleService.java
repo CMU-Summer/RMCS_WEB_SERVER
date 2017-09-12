@@ -3,7 +3,8 @@ package org.cmu.rmcs.service;
 import java.util.List;
 
 import org.cmu.rmcs.pojo.ModuleRecord;
-
+import org.springframework.stereotype.Service;
+@Service
 public interface ModuleService {
     //1.获得某个module的总时长的字符串形式 (数据库+redis)
     public String getOneModuleTotalTimeString(String family ,String name);

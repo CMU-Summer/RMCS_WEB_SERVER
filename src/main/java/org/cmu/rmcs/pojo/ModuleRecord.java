@@ -2,12 +2,16 @@ package org.cmu.rmcs.pojo;
 
 import java.io.Serializable;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class ModuleRecord implements Serializable{
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    @JSONField(name="startTime")
     private String startTime;
+    @JSONField(name="endTime")
     private String endTime;
     
     public String getStartTime() {
