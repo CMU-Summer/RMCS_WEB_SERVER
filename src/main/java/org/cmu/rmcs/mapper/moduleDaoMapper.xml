@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.cmu.rmcs.dao.ModuleDao">
+	<resultMap id="module_total_time" type="org.cmu.rmcs.pojo.Module_total_time">
+		<result column="family" property="family" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="total_time_second" property="total_time_second" jdbcType="BIGINT" />
+
+	</resultMap>
+	<resultMap id="module_use_record" type="org.cmu.rmcs.pojo.Module_use_record">
+		<result column="family" property="family" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="startTime" property="startTime" jdbcType="TIMESTAMP"  javaType="java.sql.Timestamp" />
+		<result column="endTime" property="endTime" jdbcType="TIMESTAMP"  javaType="java.sql.Timestamp" />
+	</resultMap>
+	<insert id="insertModule_Total_Record" parameterType="org.cmu.rmcs.pojo.Module_total_time">
+		INSERT INTO
+		module_total_time (
+		family,
+		name,
+		total_time_second
+		)
+		VALUES(
+		#{family},
+		#{name},
+		#{total_time_second}
+		);
+
+	</insert>
+	<insert id="insertModule_use_Record" parameterType="org.cmu.rmcs.pojo.Module_use_record">
+		INSERT INTO
+		module_use_record (
+		family,
+		name,
+		startTime,
+		endTime
+		)
+		VALUES(
+		#{family},
+		#{name},
+		#{startTime},
+		#{endTime},
+		);
+
+	</insert>
+
+
+	<select id="getModule_total_time_RecordNums" resultType="int">
+		SELECT
+		COUNT(*) FROM module_total_time
+		WHERE
+		family LIKE CONCAT('', #{0}) AND
+		name LIKE CONCAT('', #{1})
+	</select>
+
+	<select id="getModule_total_time" resultMap="module_total_time">
+		SELECT
+		family,
+		name,
+		total_time_second
+		FROM module_total_time
+		WHERE
+		family LIKE CONCAT('',
+		#{0}) AND
+		name LIKE CONCAT('', #{1})
+
+
+	</select>
+
+	<select id="getModule_use_records" resultType="org.cmu.rmcs.pojo.Module_use_record">
+		SELECT
+		family,
+		name,
+		startTime,
+		endTime,
+		FROM module_use_record
+		WHERE
+		family LIKE CONCAT('', #{0}) AND
+		name LIKE CONCAT('', #{1})
+
+
+	</select>
+
+	<select id="getModule_use_recordsByTime" resultMap="module_use_record">
+		SELECT
+		family,
+		name,
+		startTime,
+		endTime,
+		FROM module_use_record
+		WHERE
+		family LIKE CONCAT('', #{0}) AND
+		name LIKE CONCAT('', #{1}) AND
+		startTime &gt;= #{2} AND
+		endTime &lt;= #{3}
+	
+
+	</select>
+	<select id="getOneModule_use_recordByTime" resultMap="module_use_record">
+	SELECT
+		family,
+		name,
+		startTime,
+		endTime,
+		FROM module_use_record
+		WHERE
+		family LIKE CONCAT('', #{0}) AND
+		name LIKE CONCAT('', #{1}) AND
+		startTime = #{2} AND
+		endTime = #{3}
+	</select>
+	<update id="updateTotalTime">
+	UPDATE module_total_time 
+	SET total_time_second=total_time_second+#{2}
+	WHERE 
+		family LIKE CONCAT('', #{0}) AND
+		name LIKE CONCAT('', #{1})
+	
+	</update>
+
+</mapper>
