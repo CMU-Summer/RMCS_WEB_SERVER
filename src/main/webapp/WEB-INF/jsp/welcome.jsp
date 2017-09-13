@@ -353,7 +353,7 @@
 		<div class="modal-dialog" style="width: 900px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="viewModuleModalLabel">View Module
+					<h4 class="modal-title" id="viewModuleModalLabel">Module
 						History</h4>
 				</div>
 				<div class="modal-body">
@@ -723,7 +723,7 @@
 
 			},
 		});
-
+		$('#familyMap1').treeview('collapseAll', { silent: true });
 		state.familyMap1 = "tree";
 
 	}
@@ -847,7 +847,7 @@
 			multiSelect : true,
 			levels : 5,
 		});
-
+		$('#familyMap').treeview('collapseAll', { silent: true });
 		state.familyMap = "tree";
 
 	}
