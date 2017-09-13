@@ -32,7 +32,8 @@ public class ContantUtil {
     public static final String MODULE_START_TIME = "start";
     public static final String MODULE_INFIX = "_";
     public static final String TIME_STR = "%dd %dhr %dmin %dsec";
-
+    public static final int COUNT_DB = 15;
+    public static final int COUNT_REDIS = 16;
     public static String formatTime(long ms) {
 
         int ss = 1000;
@@ -47,7 +48,7 @@ public class ContantUtil {
         String timeString = new String(ContantUtil.TIME_STR);
         return String.format(timeString, day, hour, minute, second);
     }
-    public static long conuntTotalTime(List<ModuleRecord_cache> mCaches){
+    public static long conuntTotalTime(List<ModuleRecord_cache> mCaches,int type){
         //计算列表包含的时间
         long totalTime=0;
         if(mCaches==null)return 0;
@@ -57,7 +58,10 @@ public class ContantUtil {
                 totalTime+=Math.abs((m1.getEndTime()-m1.getStartTime()));
                 
             }else {
-                totalTime+=Math.abs((System.currentTimeMillis() -m1.getStartTime()));
+                if(type == ContantUtil.COUNT_REDIS){
+                    totalTime+=Math.abs((System.currentTimeMillis() -m1.getStartTime()));
+                }
+             
                 
             }
             

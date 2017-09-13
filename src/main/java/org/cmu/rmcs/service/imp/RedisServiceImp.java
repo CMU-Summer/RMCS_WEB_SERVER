@@ -230,7 +230,7 @@ public class RedisServiceImp implements RedisService {
         List<ModuleRecord_cache> mlist = this.getModuleRecordRange(family,
                 name, 0, -1);
 
-        return ContantUtil.conuntTotalTime(mlist);
+        return ContantUtil.conuntTotalTime(mlist,ContantUtil.COUNT_REDIS);
     }
 
     @Override

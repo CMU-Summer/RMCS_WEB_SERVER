@@ -97,7 +97,7 @@ public class ModuleServiceImp implements ModuleService{
             
         }
         //3.计算下时间，加入到总时间表中(如果有就update,没有就Insert)
-        long timeCount=ContantUtil.conuntTotalTime(mCaches);
+        long timeCount=ContantUtil.conuntTotalTime(mCaches,ContantUtil.COUNT_DB);
         if(this.getModuleTotalTimeRecord(family, name)<1){
             //插入
             Module_total_time module_total_time=new Module_total_time();
