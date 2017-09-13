@@ -78,9 +78,7 @@ public class ModuleServiceImp implements ModuleService{
         redisServiceImp.deleteModuleRecordOld(family, name);
         //2.插入到record表中
         for(ModuleRecord_cache moduleRecord_cache:mCaches){
-            if(moduleRecord_cache.getEndTime() == -1 ||  moduleRecord_cache.getEndTime() == -2){
-                continue;//残缺记录不计入
-            }
+           
             Module_use_record module_use_record=new Module_use_record();
             module_use_record.setEndTime(new Timestamp(moduleRecord_cache.getEndTime()));
             module_use_record.setStartTime(new Timestamp(moduleRecord_cache.getStartTime()));
