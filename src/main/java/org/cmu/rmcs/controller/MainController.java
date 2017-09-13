@@ -17,6 +17,7 @@ import org.cmu.rmcs.pojo.GroupStruct;
 import org.cmu.rmcs.pojo.ModuleInfo;
 import org.cmu.rmcs.pojo.ModuleRecord;
 import org.cmu.rmcs.pojo.User;
+import org.cmu.rmcs.service.ModuleService;
 import org.cmu.rmcs.service.RedisService;
 import org.cmu.rmcs.service.UserService;
 import org.cmu.rmcs.util.ContantUtil;
@@ -39,6 +40,8 @@ public class MainController {
     @Resource
     private RedisService redisServiceImp;
 
+    @Resource
+    private ModuleService moduleServiceImp;
     @RequestMapping(value = "/", method = { RequestMethod.POST,
             RequestMethod.GET })
     public String getWelcomePage(HttpServletRequest req, HttpServletResponse res) {
@@ -198,11 +201,11 @@ public class MainController {
     public JSONObject historyOfGroupModule(HttpServletRequest req
 
     ) {
-        String totaltime = "31d 21hr 15min 45sec";
+      
         String family = req.getParameter("family");
         String name = req.getParameter("name");
         ModuleInfo moduleInfo = new ModuleInfo();
-        // ---桩代码---
+     
         if( StringUtil.isBlank(name)){
             moduleInfo.setSucceed(false);
             moduleInfo.setDes("module must has it own name");
@@ -210,24 +213,22 @@ public class MainController {
         }else {
             moduleInfo.setFamily(family);
             moduleInfo.setName(name);
+            String totaltime=moduleServiceImp.getOneModuleTotalTimeString(family, name);
             moduleInfo.setTotalTime(totaltime);
-
-            ModuleRecord moduleRecord = new ModuleRecord();
-            moduleRecord.setEndTime("8/27/2017 21:30:32");
-            moduleRecord.setStartTime("8/27/2017 20:30:32");
-            moduleInfo.getModuleRecords().add(moduleRecord);
-            ModuleRecord moduleRecord1 = new ModuleRecord();
-            moduleRecord1.setEndTime("8/27/2017 22:30:32");
-            moduleRecord1.setStartTime("8/27/2017 21:30:32");
-            moduleInfo.getModuleRecords().add(moduleRecord1);
-            ModuleRecord moduleRecord2 = new ModuleRecord();
-            moduleRecord2.setEndTime(" ");
-            moduleRecord2.setStartTime("8/27/2017 22:30:32");
-            moduleInfo.getModuleRecords().add(moduleRecord2);
+            moduleInfo.setModuleRecords(moduleServiceImp.getModuleRecordsLatest(family, name));
+            List<ModuleRecord> moduleRecords=new ArrayList<>();
+            if(moduleInfo.getModuleRecords().size()>0){
+                for(int i=moduleInfo.getModuleRecords().size()-1;i>=0;i--){
+                    moduleRecords.add(moduleInfo.getModuleRecords().get(i));
+                    
+                }
+                moduleInfo.setModuleRecords(moduleRecords); 
+                
+            }
             moduleInfo.setSucceed(true);
         }
         
-        // ---桩代码---
+ 
 
         return JSONObject.parseObject(JSONObject.toJSONString(moduleInfo));
 

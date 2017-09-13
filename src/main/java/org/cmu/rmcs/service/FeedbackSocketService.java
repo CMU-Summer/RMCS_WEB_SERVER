@@ -51,7 +51,7 @@ public class FeedbackSocketService implements Runnable{
         // TODO Auto-generated method stub
       while (true) {
       
-          System.out.println("fd session's id:"+sessionLocal.getId()+" session.isOpen():"+sessionLocal.isOpen());
+          //System.out.println("fd session's id:"+sessionLocal.getId()+" session.isOpen():"+sessionLocal.isOpen());
       if(sessionLocal.isOpen()==false){
           
           System.out.println("feedback  sock is closed");
@@ -86,7 +86,7 @@ public class FeedbackSocketService implements Runnable{
           // TODO: handle exception
           logger.error("thread sleep error:" + e.getMessage());
       }
-      System.out.println("next fd... ");
+      //System.out.println("next fd... ");
       }
     }
    

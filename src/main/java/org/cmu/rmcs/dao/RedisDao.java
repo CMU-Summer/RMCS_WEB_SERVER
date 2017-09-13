@@ -70,7 +70,7 @@ public class RedisDao {
 
     // 获取数组,起始到结束
     public List<String> getList(final String listKey, final long start,
-            final int end) {
+            final long end) {
         try {
             BoundListOperations<String, String> lOpt=redisTemplate.boundListOps(listKey);
             return lOpt.range(start, end);

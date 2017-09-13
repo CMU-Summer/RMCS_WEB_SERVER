@@ -7,6 +7,8 @@ import java.util.Set;
 
 import org.cmu.rmcs.pojo.GroupStruct;
 import org.cmu.rmcs.pojo.GroupfeedbackCustomStruct;
+import org.cmu.rmcs.pojo.ModuleRecord;
+import org.cmu.rmcs.pojo.ModuleRecord_cache;
 import org.springframework.stereotype.Service;
 @Service
 public interface RedisService {
@@ -60,5 +62,19 @@ public interface RedisService {
     //15 hack 删除fixed group
     public boolean deleteFixedGroupInCache(String groupName);
     
-   
+    //16 计算缓存内module的总时间,所有的,返回long
+    public long countModuleTimeInCache(String family ,String name);
+    //17 将redis内，moduleRecord最新的返回(时间是字符串类型)
+    public List<ModuleRecord> getModuleRecordLatest(String family ,String name);
+
+    //18 ，取指定范围的moduleRecord_cache
+    public List<ModuleRecord_cache> getModuleRecordRange(String family ,String name,long start,long end);
+    
+    //19 清理module的老旧记录
+    public void deleteModuleRecordOld(String family,String name);
+    
+    //20 17de int
+    public List<ModuleRecord_cache> getModuleRecordLatest_Long(String family ,String name);
+    //21 取module的老记录
+    public List<ModuleRecord_cache> getModuleRecordOld(String family ,String name);
 }

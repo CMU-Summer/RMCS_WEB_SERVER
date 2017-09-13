@@ -331,7 +331,7 @@
 				<div class="modal-body familyMap" id="familyMap">
 					<!--将会在这里出现个树的结构-->
 				</div>
-				<div class="desNote">2.Name the group(only nums or letters)</div>
+				<div class="desNote">2.Name the group (Group name is supposed to contain numbers or letters.)</div>
 				<div class="inputDiv">
 					<input type="text" class="form-control gnameInput"
 						placeholder="input groupName" />
@@ -586,6 +586,7 @@
 		//添加group按钮绑定事件
 
 		$(".addGroupItem").bind("click", function(e) {
+			$(".gnameInput").val("");//清空input输入框内容
 			getFamilyAndItNames();//去访问服务器，获得familyMap
 		});
 		//添加 group submit绑定事件
