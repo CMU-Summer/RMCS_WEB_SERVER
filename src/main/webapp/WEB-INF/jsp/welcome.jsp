@@ -353,8 +353,7 @@
 		<div class="modal-dialog" style="width: 900px">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="viewModuleModalLabel">Module
-						History</h4>
+					<h4 class="modal-title" id="viewModuleModalLabel">SEA/HEBI Module Tracking</h4>
 				</div>
 				<div class="modal-body">
 					<div class="row pbl">
