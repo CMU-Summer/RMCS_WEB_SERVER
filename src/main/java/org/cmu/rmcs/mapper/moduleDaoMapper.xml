@@ -11,8 +11,8 @@
 	<resultMap id="module_use_record" type="org.cmu.rmcs.pojo.Module_use_record">
 		<result column="family" property="family" jdbcType="VARCHAR" />
 		<result column="name" property="name" jdbcType="VARCHAR" />
-		<result column="startTime" property="startTime" jdbcType="TIMESTAMP"  javaType="java.sql.Timestamp" />
-		<result column="endTime" property="endTime" jdbcType="TIMESTAMP"  javaType="java.sql.Timestamp" />
+		<result column="startTime" property="startTime" jdbcType="BIGINT"   />
+		<result column="endTime" property="endTime" jdbcType="BIGINT"   />
 	</resultMap>
 	<insert id="insertModule_Total_Record" parameterType="org.cmu.rmcs.pojo.Module_total_time">
 		INSERT INTO

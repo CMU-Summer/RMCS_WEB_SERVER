@@ -80,8 +80,8 @@ public class ModuleServiceImp implements ModuleService{
         for(ModuleRecord_cache moduleRecord_cache:mCaches){
            
             Module_use_record module_use_record=new Module_use_record();
-            module_use_record.setEndTime(new Timestamp(moduleRecord_cache.getEndTime()));
-            module_use_record.setStartTime(new Timestamp(moduleRecord_cache.getStartTime()));
+            module_use_record.setEndTime(moduleRecord_cache.getEndTime());
+            module_use_record.setStartTime(moduleRecord_cache.getStartTime());
             module_use_record.setFamily(family);
             module_use_record.setName(name);
             try {

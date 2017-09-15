@@ -10,8 +10,8 @@ public class Module_use_record implements Serializable{
     private static final long serialVersionUID = 1L;
     private String family;
     private String name;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private long startTime;
+    private long endTime;
 
     public String getFamily() {
         return family;
@@ -29,19 +29,19 @@ public class Module_use_record implements Serializable{
         this.name = name;
     }
 
-    public Timestamp getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Timestamp startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
