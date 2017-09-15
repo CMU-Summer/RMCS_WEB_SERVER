@@ -81,10 +81,15 @@ public class RedisServiceImp implements RedisService {
                 + ContantUtil.POSTFIX_GROUP_FEEDBACK_KEY, lastEnd, -1);
         List<GroupfeedbackCustomStruct> fdCustomStructs = new ArrayList<>();
         for (String s : fdJsonList) {
-            JSONObject jsonObject = JSONObject.parseObject(s);
-            GroupfeedbackCustomStruct groupfeedbackCustomStruct = JSONObject
-                    .toJavaObject(jsonObject, GroupfeedbackCustomStruct.class);
-            fdCustomStructs.add(groupfeedbackCustomStruct);
+           try {
+               JSONObject jsonObject = JSONObject.parseObject(s);
+               GroupfeedbackCustomStruct groupfeedbackCustomStruct = JSONObject
+                       .toJavaObject(jsonObject, GroupfeedbackCustomStruct.class);
+               fdCustomStructs.add(groupfeedbackCustomStruct);
+        } catch (Exception e) {
+            // TODO: handle exception
+          
+        }
 
         }
         return fdCustomStructs;
