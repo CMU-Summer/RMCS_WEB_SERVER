@@ -40,7 +40,7 @@
 		#{family},
 		#{name},
 		#{startTime},
-		#{endTime},
+		#{endTime}
 		);
 
 	</insert>
