@@ -854,17 +854,17 @@
 	function sumitGroupToAdd() {
 		//提交group
 		if (state.familyMap == null) {
-			swal("Attention", "You must choose some modules!", "error");
+			swal("Attention", "Unknown error,try it again!", "error");
 		} else {
 			//先判断输入group的名字合不合法
-			if (checkGroupName() == false) {
+			if ( checkGroupName() == false ) {
 				swal("Attention",
 						" Group name can only contain nums or letters！",
 						"error");
 				return;
 			}
 			var list = $('#familyMap').treeview('getSelected');
-			if (list.length < 0) {
+			if (list.length <= 0) {
 				//没有选,
 				swal("Sorry", "You must chose one module !", "error");
 				return;
@@ -887,11 +887,12 @@
 
 						swal("Ok!", data.des, "success");
 						//关闭模态框触发，
-						$('#addGroupModal').modal('hide');
+						closeGroupAddingModal();
 					}
 				},
 				error : function(e) {
 					swal("Sorry", "Add group failed,network error!", "error");
+					closeGroupAddingModal();
 				}
 			});
 
@@ -901,7 +902,7 @@
 	}
 	function checkGroupName() {
 		var value = $(".gnameInput").eq(0).val();
-		
+		if(value.length<=0)return false;
 		var pattern = new RegExp(/[(\ )(\~)(\`)(\!)(\@)(\#)(\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=)(\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/)(\<)(\>)(\?)(\)]+/);
 
 		if (pattern.test(value) ) {
