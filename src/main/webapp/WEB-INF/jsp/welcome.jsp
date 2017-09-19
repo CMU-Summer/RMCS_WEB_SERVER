@@ -636,7 +636,7 @@
 						swal(
 								{
 									title : "Sorry",
-									text : "you can't get any module,please notice the admin!",
+									text : "You can't get any module,please notice the admin!",
 									showCancelButton : false,
 									type : "error",
 									confirmButtonText : "ok",
@@ -677,7 +677,7 @@
 						swal(
 								{
 									title : "Sorry",
-									text : "you can't add group,please notice the admin!",
+									text : "You can't add group,please notice the admin!",
 									showCancelButton : false,
 									type : "error",
 									confirmButtonText : "ok",
@@ -750,7 +750,7 @@
 							swal(
 									{
 										title : "Sorry",
-										text : "you can't get module history,please notice the admin!",
+										text : "You can't get module history,please notice the admin!",
 										showCancelButton : false,
 										type : "error",
 										confirmButtonText : "ok",
@@ -770,7 +770,7 @@
 						swal(
 								{
 									title : "Sorry",
-									text : "you can't get module history,please notice the admin!",
+									text : "You can't get module history,please notice the admin!",
 									showCancelButton : false,
 									type : "error",
 									confirmButtonText : "ok",
@@ -854,7 +854,7 @@
 	function sumitGroupToAdd() {
 		//提交group
 		if (state.familyMap == null) {
-			swal("Attention", "you must choose some modules!", "error");
+			swal("Attention", "You must choose some modules!", "error");
 		} else {
 			//先判断输入group的名字合不合法
 			if (checkGroupName() == false) {
@@ -866,7 +866,7 @@
 			var list = $('#familyMap').treeview('getSelected');
 			if (list.length < 0) {
 				//没有选,
-				swal("Sorry", "you must chose one module !", "error");
+				swal("Sorry", "You must chose one module !", "error");
 				return;
 			}
 			//从树种获取所有选择的节点
@@ -1274,7 +1274,7 @@
 																			e) {
 																		swal(
 																				"Sorry",
-																				"add group failed,net error",
+																				"Add group failed,net error",
 																				"error");
 																	}
 																});

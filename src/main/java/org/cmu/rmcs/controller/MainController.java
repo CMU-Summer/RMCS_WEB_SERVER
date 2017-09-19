@@ -60,17 +60,17 @@ public class MainController {
         if (StringUtil.isBlank(userName) || StringUtil.isBlank(password)) {
 
             commonRes.setSucceed(false);
-            commonRes.setDes("userName and password cannot be empty!");
+            commonRes.setDes("UserName and password cannot be empty!");
         } else {
             if (userServiceImp.isUser(userName, password)) {
                 // 返回真，然后塞user
                 commonRes.setSucceed(true);
-                commonRes.setDes("logined");
+                commonRes.setDes("Logined");
                 User user = userServiceImp.getUser(userName, password);
                 req.getSession().setAttribute("user", user);
             } else {
                 commonRes.setSucceed(false);
-                commonRes.setDes("userName or  password is wrong!");
+                commonRes.setDes("UserName or  password is wrong!");
             }
 
         }
@@ -152,7 +152,7 @@ public class MainController {
         if (groupName.endsWith(ContantUtil.POSTFIX_FIXED_GROUP_KEY)) {
             // 以_fix结尾的，不能删
             isSucceed = false;
-            commonRes.setDes("fixed group cannot be deleted!");
+            commonRes.setDes("Fixed group cannot be deleted!");
         } else {
             isSucceed = redisServiceImp.deleteGroupIncache(groupName);
             if (isSucceed) {
